@@ -3,56 +3,59 @@ import {
   AppstoreAddOutlined,
   AntDesignOutlined,
   BarcodeOutlined,
-  BgColorsOutlined,
+  ApartmentOutlined,
   FontSizeOutlined,
-  LoadingOutlined
+  LoadingOutlined,
+  DropboxOutlined,
+  UserOutlined
 } from '@ant-design/icons';
 
 // icons
 const icons = {
   FontSizeOutlined,
-  BgColorsOutlined,
+  ApartmentOutlined,
   BarcodeOutlined,
   AntDesignOutlined,
   LoadingOutlined,
-  AppstoreAddOutlined
+  AppstoreAddOutlined,
+  DropboxOutlined,
+  UserOutlined
 };
 
 // ==============================|| MENU ITEMS - UTILITIES ||============================== //
-
+ApartmentOutlined;
 const utilities = {
   id: 'utilities',
-  title: 'Utilities',
+  title: 'Cadastro',
   type: 'group',
   children: [
     {
       id: 'util-typography',
-      title: 'Typography',
+      title: 'Estoque',
       type: 'item',
       url: '/typography',
-      icon: icons.FontSizeOutlined
+      icon: icons.DropboxOutlined
     },
     {
       id: 'util-color',
-      title: 'Color',
+      title: 'Categoria',
       type: 'item',
       url: '/color',
-      icon: icons.BgColorsOutlined
+      icon: icons.ApartmentOutlined
     },
     {
       id: 'util-shadow',
-      title: 'Shadow',
+      title: 'Produto',
       type: 'item',
       url: '/shadow',
       icon: icons.BarcodeOutlined
     },
     {
-      id: 'ant-icons',
-      title: 'Ant Icons',
+      id: 'util-shadow',
+      title: 'Solicitante',
       type: 'item',
-      url: '/icons/ant',
-      icon: icons.AntDesignOutlined,
-      breadcrumbs: false
+      url: '/shadow',
+      icon: icons.UserOutlined
     }
   ]
 };
