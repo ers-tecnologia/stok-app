@@ -11,9 +11,11 @@ const DashboardDefault = Loadable(lazy(() => import('pages/dashboard')));
 const SamplePage = Loadable(lazy(() => import('pages/extra-pages/SamplePage')));
 
 // render - utilities
-const Typography = Loadable(lazy(() => import('pages/components-overview/Typography')));
-const Color = Loadable(lazy(() => import('pages/components-overview/Color')));
-const Shadow = Loadable(lazy(() => import('pages/components-overview/Shadow')));
+const RegisterStock = Loadable(lazy(() => import('pages/components-overview/RegisterStock')));
+const RegisterCategory = Loadable(lazy(() => import('pages/components-overview/RegisterCategory')));
+const RegisterRequester = Loadable(lazy(() => import('pages/components-overview/RegisterRequester')));
+const RegisterProduct = Loadable(lazy(() => import('pages/components-overview/RegisterProduct')));
+const RegisterUser = Loadable(lazy(() => import('pages/components-overview/RegisterUser')));
 const AntIcons = Loadable(lazy(() => import('pages/components-overview/AntIcons')));
 
 // ==============================|| MAIN ROUTING ||============================== //
@@ -27,8 +29,8 @@ const MainRoutes = {
       element: <DashboardDefault />
     },
     {
-      path: 'color',
-      element: <Color />
+      path: 'cadastro-categoria',
+      element: <RegisterCategory />
     },
     {
       path: 'dashboard',
@@ -44,12 +46,20 @@ const MainRoutes = {
       element: <SamplePage />
     },
     {
-      path: 'shadow',
-      element: <Shadow />
+      path: 'cadastro-produto',
+      element: <RegisterProduct />
     },
     {
-      path: 'typography',
-      element: <Typography />
+      path: 'cadastro-estoque',
+      element: <RegisterStock />
+    },
+    {
+      path: 'cadastro-solicitante',
+      element: <RegisterRequester />
+    },
+    {
+      path: 'cadastro-usuario',
+      element: <RegisterUser />
     },
     {
       path: 'icons/ant',

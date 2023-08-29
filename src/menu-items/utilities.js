@@ -30,31 +30,38 @@ const utilities = {
   type: 'group',
   children: [
     {
-      id: 'util-typography',
+      id: 'util-stock',
       title: 'Estoque',
       type: 'item',
-      url: '/typography',
+      url: '/cadastro-estoque',
       icon: icons.DropboxOutlined
     },
     {
-      id: 'util-color',
+      id: 'util-category',
       title: 'Categoria',
       type: 'item',
-      url: '/color',
+      url: '/cadastro-categoria',
       icon: icons.ApartmentOutlined
     },
     {
-      id: 'util-shadow',
+      id: 'util-produto',
       title: 'Produto',
       type: 'item',
-      url: '/shadow',
+      url: '/cadastro-produto',
       icon: icons.BarcodeOutlined
     },
     {
-      id: 'util-shadow',
+      id: 'util-solicitante',
       title: 'Solicitante',
       type: 'item',
-      url: '/shadow',
+      url: '/cadastro-solicitante',
+      icon: icons.UserOutlined
+    },
+    {
+      id: 'util-usuario',
+      title: 'Usuário',
+      type: 'item',
+      url: '/cadastro-usuario',
       icon: icons.UserOutlined
     }
   ]
