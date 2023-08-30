@@ -20,35 +20,29 @@ const support = {
       id: 'sample-page',
       title: 'Entrada de Itens',
       type: 'item',
-      url: '/sample-page',
+      url: '/entrada-itens',
       icon: icons.EditOutlined
     },
     {
       id: 'saida',
       title: 'Saída de Itens',
       type: 'item',
-      url: 'https://codedthemes.gitbook.io/mantis/',
+      url: '/saida-itens',
       icon: icons.RedoOutlined,
-      external: true,
-      target: true
     },
     {
       id: 'documentation',
       title: 'Devolução de Itens',
       type: 'item',
-      url: 'https://codedthemes.gitbook.io/mantis/',
+      url: '/devolucao-itens',
       icon: icons.AlignCenterOutlined,
-      external: true,
-      target: true
     },
     {
       id: 'inventario',
       title: 'Inventário',
       type: 'item',
-      url: 'https://codedthemes.gitbook.io/mantis/',
+      url: '/inventario',
       icon: icons.FormOutlined,
-      external: true,
-      target: true
     }
   ]
 };
