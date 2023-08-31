@@ -1,5 +1,5 @@
 import React from 'react';
-import { TextField, Button, Grid, Select, MenuItem, InputLabel, FormControl, Paper } from '@mui/material';
+import { TextField, Button, Grid, Select, MenuItem, InputLabel, FormControl } from '@mui/material';
 
 const RegisterProduct = () => {
   const [categoria, setCategoria] = React.useState('');

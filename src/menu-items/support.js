@@ -28,21 +28,21 @@ const support = {
       title: 'Saída de Itens',
       type: 'item',
       url: '/saida-itens',
-      icon: icons.RedoOutlined,
+      icon: icons.RedoOutlined
     },
     {
       id: 'documentation',
       title: 'Devolução de Itens',
       type: 'item',
       url: '/devolucao-itens',
-      icon: icons.AlignCenterOutlined,
+      icon: icons.AlignCenterOutlined
     },
     {
       id: 'inventario',
       title: 'Inventário',
       type: 'item',
       url: '/inventario',
-      icon: icons.FormOutlined,
+      icon: icons.FormOutlined
     }
   ]
 };

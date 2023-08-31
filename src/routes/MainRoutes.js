@@ -112,7 +112,6 @@ const MainRoutes = {
       path: 'saida-itens',
       element: <OutputItems />
     }
-
   ]
 };
 

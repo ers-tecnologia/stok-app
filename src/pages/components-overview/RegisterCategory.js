@@ -1,5 +1,5 @@
 import React from 'react'
-import { TextField, Button, Grid, Paper } from '@mui/material';
+import { TextField, Button, Grid } from '@mui/material';
 
 const RegisterCategory = () => {
   return (
@@ -21,4 +21,4 @@ const RegisterCategory = () => {
   )
 }
 
-export default RegisterCategory
+export default RegisterCategory;
