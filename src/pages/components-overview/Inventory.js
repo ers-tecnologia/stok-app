@@ -23,7 +23,7 @@ const Inventory = () => {
   return (
     <div>
       <h1>Inventário</h1>
-      <Box  mb={2}>
+      <Box mb={2}>
         <Button variant="contained" color="primary" sx={{}}>
           Iniciar Inventário
         </Button>

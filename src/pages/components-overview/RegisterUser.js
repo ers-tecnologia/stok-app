@@ -1,71 +1,52 @@
 import React from 'react';
-import { TextField, Button, Grid, FormControl, FormControlLabel, Checkbox} from '@mui/material';
+import { TextField, Button, Grid, FormControl, Paper, MenuItem, InputLabel, Select } from '@mui/material';
 
 const RegisterUser = () => {
+  const [estado, setEstado] = React.useState('');
 
-  const [perfil, setPerfil] = React.useState({
-    perfil1: false,
-    perfil2: false,
-  });
-
-  const [estoque, setEstoque] = React.useState({
-    estoque1: false,
-    estoque2: false,
-  });
-
-  const handlePerfilChange = (event) => {
-    setPerfil({ ...perfil, [event.target.name]: event.target.checked });
-  };
-
-  const handleEstoqueChange = (event) => {
-    setEstoque({ ...estoque, [event.target.name]: event.target.checked });
+  const handleEstadoChange = (event) => {
+    setEstado(event.target.value);
   };
 
   return (
-    <Grid container direction="column" spacing={2} sx={{ maxWidth: '500px', margin: '0 auto' }}>
-      <Grid item>
-        <TextField label="ID" type="number" disabled sx={{ width: '100%' }} />
+    <Paper elevation={3} style={{ padding: 20, margin: 'auto' }}>
+      <Grid container spacing={2}>
+        <Grid item xs={4}>
+          <TextField label="Nome" fullWidth />
+        </Grid>
+        <Grid item xs={3}>
+          <TextField label="E-mail" type="email" fullWidth />
+        </Grid>
+        <Grid item xs={2}>
+          <TextField label="Senha" type="password" fullWidth />
+        </Grid>
+        <Grid item xs={3}>
+          <FormControl fullWidth>
+            <InputLabel>Perfil</InputLabel>
+            <Select value={estado} onChange={handleEstadoChange}>
+              <MenuItem value={10}>Perfil 1</MenuItem>
+              <MenuItem value={20}>Perfil 2</MenuItem>
+              <MenuItem value={30}>Perfil 3</MenuItem>
+            </Select>
+          </FormControl>
+        </Grid>
+        <Grid item xs={12}>
+          <Grid container spacing={1}>
+            <Grid item xs={1}>
+              <Button variant="contained" color="success" fullWidth>
+                Salvar
+              </Button>
+            </Grid>
+            <Grid item xs={1}>
+              <Button variant="contained" color="primary" fullWidth>
+                Voltar
+              </Button>
+            </Grid>
+          </Grid>
+        </Grid>
       </Grid>
-      <Grid item>
-        <TextField label="Nome" sx={{ width: '100%' }} />
-      </Grid>
-      <Grid item>
-        <TextField label="E-mail" type="email" sx={{ width: '100%' }} />
-      </Grid>
-      <Grid item>
-        <TextField label="Senha" type="password" sx={{ width: '100%' }} />
-      </Grid>
-      <Grid item>
-        <FormControl component="fieldset">
-          <FormControlLabel
-            control={<Checkbox checked={perfil.perfil1} onChange={handlePerfilChange} name="perfil1" />}
-            label="Perfil 1"
-          />
-          <FormControlLabel
-            control={<Checkbox checked={perfil.perfil2} onChange={handlePerfilChange} name="perfil2" />}
-            label="Perfil 2"
-          />
-        </FormControl>
-      </Grid>
-      <Grid item>
-        <FormControl component="fieldset">
-          <FormControlLabel
-            control={<Checkbox checked={estoque.estoque1} onChange={handleEstoqueChange} name="estoque1" />}
-            label="Estoque 1"
-          />
-          <FormControlLabel
-            control={<Checkbox checked={estoque.estoque2} onChange={handleEstoqueChange} name="estoque2" />}
-            label="Estoque 2"
-          />
-        </FormControl>
-      </Grid>
-      <Grid item>
-        <Button variant="contained" color="primary" sx={{ width: '50%', mx: 'auto' }}>
-          Registrar
-        </Button>
-      </Grid>
-    </Grid>
-  )
-}
+    </Paper>
+  );
+};
 
 export default RegisterUser;

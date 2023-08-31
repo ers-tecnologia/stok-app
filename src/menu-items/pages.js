@@ -21,15 +21,15 @@ const pages = {
       url: '/login',
       icon: icons.LoginOutlined,
       target: true
-    },
-    {
+    }
+    /*{
       id: 'register1',
       title: 'Registrar',
       type: 'item',
       url: '/register',
       icon: icons.ProfileOutlined,
       target: true
-    }
+    }*/
   ]
 };
 
