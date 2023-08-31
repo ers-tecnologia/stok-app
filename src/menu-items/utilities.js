@@ -33,35 +33,35 @@ const utilities = {
       id: 'util-stock',
       title: 'Estoque',
       type: 'item',
-      url: '/cadastro-estoque',
+      url: '/lista-estoque',
       icon: icons.DropboxOutlined
     },
     {
       id: 'util-category',
       title: 'Categoria',
       type: 'item',
-      url: '/cadastro-categoria',
+      url: '/lista-categoria',
       icon: icons.ApartmentOutlined
     },
     {
       id: 'util-produto',
       title: 'Produto',
       type: 'item',
-      url: '/cadastro-produto',
+      url: '/lista-produto',
       icon: icons.BarcodeOutlined
     },
     {
       id: 'util-solicitante',
       title: 'Solicitante',
       type: 'item',
-      url: '/cadastro-solicitante',
+      url: '/lista-solicitante',
       icon: icons.UserOutlined
     },
     {
       id: 'util-usuario',
       title: 'Usuário',
       type: 'item',
-      url: '/cadastro-usuario',
+      url: '/lista-usuario',
       icon: icons.UserOutlined
     }
   ]

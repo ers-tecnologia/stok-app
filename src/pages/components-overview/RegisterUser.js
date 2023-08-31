@@ -1,5 +1,5 @@
 import React from 'react';
-import { TextField, Button, Grid, FormControl, FormControlLabel, Checkbox} from '@mui/material';
+import { TextField, Button, Grid, FormControl, FormControlLabel, Checkbox, Paper} from '@mui/material';
 
 const RegisterUser = () => {
 
@@ -22,6 +22,8 @@ const RegisterUser = () => {
   };
 
   return (
+    <Paper elevation={3} style={{padding: 20, margin: 'auto'}}>
+
     <Grid container direction="column" spacing={2} sx={{ maxWidth: '500px', margin: '0 auto' }}>
       <Grid item>
         <TextField label="ID" type="number" disabled sx={{ width: '100%' }} />
@@ -65,6 +67,7 @@ const RegisterUser = () => {
         </Button>
       </Grid>
     </Grid>
+    </Paper>
   )
 }
 

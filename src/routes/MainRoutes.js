@@ -9,6 +9,11 @@ const DashboardDefault = Loadable(lazy(() => import('pages/dashboard')));
 
 // render - sample page
 const ItemsInput = Loadable(lazy(() => import('pages/extra-pages/ItemsInput')));
+const StockList = Loadable(lazy(() => import('pages/extra-pages/StockList')));
+const ListCategory = Loadable(lazy(() => import('pages/extra-pages/ListCategory')));
+const ProductList = Loadable(lazy(() => import('pages/extra-pages/ProductList')));
+const RequesterList = Loadable(lazy(() => import('pages/extra-pages/RequesterList')));
+const UserList = Loadable(lazy(() => import('pages/extra-pages/UserList')));
 
 // render - utilities
 const RegisterStock = Loadable(lazy(() => import('pages/components-overview/RegisterStock')));
@@ -32,10 +37,6 @@ const MainRoutes = {
       element: <DashboardDefault />
     },
     {
-      path: 'cadastro-categoria',
-      element: <RegisterCategory />
-    },
-    {
       path: 'dashboard',
       children: [
         {
@@ -45,17 +46,47 @@ const MainRoutes = {
       ]
     },
 
+
+   //estoque
     {
-      path: 'cadastro-produto',
-      element: <RegisterProduct />
+      path: 'lista-estoque',
+      element: <StockList/>
     },
     {
       path: 'cadastro-estoque',
       element: <RegisterStock />
     },
+    //categoria
+    {
+      path: 'lista-categoria',
+      element: <ListCategory />
+    },      
+    {
+      path: 'cadastro-categoria',
+      element: <RegisterCategory />
+    },
+    //produto
+    {
+      path: 'lista-produto',
+      element: <ProductList />
+    },
+    {
+      path: 'cadastro-produto',
+      element: <RegisterProduct />
+    },
+    //solicitante
+    {
+      path: 'lista-solicitante',
+      element: <RequesterList />
+    },
     {
       path: 'cadastro-solicitante',
       element: <RegisterRequester />
+    },
+    //usuario
+    {
+      path: 'lista-usuario',
+      element: <UserList />
     },
     {
       path: 'cadastro-usuario',
