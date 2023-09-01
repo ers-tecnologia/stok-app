@@ -1,41 +1,33 @@
-import { TextField, Button, Grid } from '@mui/material';
+import React from 'react';
+import { TextField, Button, Grid, Paper } from '@mui/material';
 
 const RegisterStock = () => {
   return (
-    <Grid container direction="column" spacing={2}>
-      <Grid item>
-        <TextField label="ID" type="number" sx={{ width: '100%' }} />
+    <Paper elevation={3} style={{ padding: 20, margin: 'auto' }}>
+      <Grid container spacing={2}>
+        <Grid item xs={12}>
+          <Grid container spacing={2}>
+            <Grid item xs={1}>
+              <TextField label="ID" type="number" fullWidth />
+            </Grid>
+
+            <Grid item xs={11}>
+              <TextField label="Descrição" fullWidth />
+            </Grid>
+            <Grid item xs={1}>
+              <Button variant="contained" color="success" fullWidth>
+                Salvar
+              </Button>
+            </Grid>
+            <Grid item xs={1}>
+              <Button variant="contained" color="primary" fullWidth>
+                Voltar
+              </Button>
+            </Grid>
+          </Grid>
+        </Grid>
       </Grid>
-      <Grid item>
-        <TextField label="Tipo de Unidade" sx={{ width: '100%' }} />
-      </Grid>
-      <Grid item>
-        <TextField label="Nome/Razão Social" sx={{ width: '100%' }} />
-      </Grid>
-      <Grid item>
-        <TextField label="CNPJ" sx={{ width: '100%' }} />
-      </Grid>
-      <Grid item>
-        <TextField label="Rua" sx={{ width: '100%' }} />
-      </Grid>
-      <Grid item>
-        <TextField label="Número" sx={{ width: '100%' }} />
-      </Grid>
-      <Grid item>
-        <TextField label="Bairro" sx={{ width: '100%' }} />
-      </Grid>
-      <Grid item>
-        <TextField label="Cidade" sx={{ width: '100%' }} />
-      </Grid>
-      <Grid item>
-        <TextField label="Estado Sigla" sx={{ width: '100%' }} />
-      </Grid>
-      <Grid item>
-        <Button variant="contained" color="primary" sx={{ width: '100%' }}>
-          Enviar
-        </Button>
-      </Grid>
-    </Grid>
+    </Paper>
   );
 };
 

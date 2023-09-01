@@ -1,5 +1,5 @@
 import React from 'react';
-import { TextField, Button, Grid, Select, MenuItem, InputLabel, FormControl, Paper } from '@mui/material';
+import { TextField, Button, Grid, Paper, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 
 const RegisterProduct = () => {
   const [categoria, setCategoria] = React.useState('');
@@ -14,68 +14,59 @@ const RegisterProduct = () => {
   };
 
   return (
-    <Paper elevation={3} style={{ padding: 10, margin: 'auto' }}>
-      <Grid container direction="column" spacing={2} sx={{ maxWidth: '600px', margin: '0 auto' }}>
-        <Grid item>
-          <TextField label="ID" type="number" disabled sx={{ width: '100%' }} />
+    <Paper elevation={3} style={{ padding: 20, margin: 'auto' }}>
+      <Grid container spacing={2}>
+        <Grid item xs={1}>
+          <TextField label="ID" type="number" disabled fullWidth />
         </Grid>
-        <Grid item>
-          <TextField label="Patrimônio" type="number" sx={{ width: '100%' }} />
+        <Grid item xs={3}>
+          <TextField label="Patrimônio" type="number" fullWidth />
         </Grid>
-        <Grid item>
-          <TextField label="Descrição" sx={{ width: '100%' }} />
+        <Grid item xs={8}>
+          <TextField label="Descrição" fullWidth />
         </Grid>
-        <Grid item>
+        <Grid item xs={3}>
           <FormControl fullWidth>
             <InputLabel>Categoria</InputLabel>
             <Select value={categoria} onChange={handleCategoriaChange}>
-              {/*  categorias vindo do backend */}
               <MenuItem value={10}>Categoria 1</MenuItem>
               <MenuItem value={20}>Categoria 2</MenuItem>
               <MenuItem value={30}>Categoria 3</MenuItem>
             </Select>
           </FormControl>
         </Grid>
-        <Grid item>
+        <Grid item xs={3}>
           <FormControl fullWidth>
             <InputLabel>Estado</InputLabel>
             <Select value={estado} onChange={handleEstadoChange}>
-              {/*  estados vindos do backend */}
               <MenuItem value={10}>Estado 1</MenuItem>
               <MenuItem value={20}>Estado 2</MenuItem>
               <MenuItem value={30}>Estado 3</MenuItem>
             </Select>
           </FormControl>
         </Grid>
-        <Grid item>
-          <TextField label="Estoque Mínimo" type="number" sx={{ width: '100%' }} />
+        <Grid item xs={2}>
+          <TextField label="Estoque Mínimo" type="number" fullWidth />
         </Grid>
-        <Grid item>
-          <TextField label="Estoque Máximo" type="number" sx={{ width: '100%' }} />
+        <Grid item xs={2}>
+          <TextField label="Estoque Máximo" type="number" fullWidth />
         </Grid>
-        <Grid item>
-          <TextField type="date" sx={{ width: '100%' }} />
+        <Grid item xs={2}>
+          <TextField label="Ponto de pedido" type="number" fullWidth />
         </Grid>
-        <Grid item>
-          <TextField label="Usuário de Criação" sx={{ width: '100%' }} />
-        </Grid>
-        <Grid item>
-          <Button variant="contained" color="primary" sx={{ width: '100%' }}>
-            Inserir
-          </Button>
-        </Grid>
-        <Grid item>
-          <TextField label="Pesquisar" sx={{ width: '100%' }} />
-        </Grid>
-        <Grid item>
-          <Button variant="contained" color="primary" sx={{ width: '100%' }}>
-            Editar Produto
-          </Button>
-        </Grid>
-        <Grid item>
-          <Button variant="contained" color="primary" sx={{ width: '100%' }}>
-            Desativar Produto
-          </Button>
+        <Grid item xs={12}>
+          <Grid container spacing={1}>
+            <Grid item xs={1}>
+              <Button variant="contained" color="success" fullWidth>
+                Salvar
+              </Button>
+            </Grid>
+            <Grid item xs={1}>
+              <Button variant="contained" color="primary" fullWidth>
+                Voltar
+              </Button>
+            </Grid>
+          </Grid>
         </Grid>
       </Grid>
     </Paper>

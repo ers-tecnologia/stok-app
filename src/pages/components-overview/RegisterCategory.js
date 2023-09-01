@@ -3,17 +3,22 @@ import { TextField, Button, Grid, Paper } from '@mui/material';
 
 const RegisterCategory = () => {
   return (
-    <Paper elevation={3} style={{ padding: 10, margin: 'auto' }}>
-      <Grid container direction="column" spacing={2} sx={{ maxWidth: '500px', margin: '0 auto' }}>
-        <Grid item xs={6}>
-          <TextField label="ID" type="number" sx={{ width: '100%' }} />
+    <Paper elevation={3} style={{ padding: 20, margin: 'auto' }}>
+      <Grid container spacing={2}>
+        <Grid item xs={1}>
+          <TextField label="ID" type="number" fullWidth />
         </Grid>
-        <Grid item xs={6}>
-          <TextField label="Descrição" sx={{ width: '100%' }} />
+        <Grid item xs={11}>
+          <TextField label="Descrição" fullWidth />
         </Grid>
-        <Grid item>
-          <Button variant="contained" color="primary" sx={{ width: '100%' }}>
-            Registrar
+        <Grid item xs={1}>
+          <Button variant="contained" color="success" fullWidth>
+            Salvar
+          </Button>
+        </Grid>
+        <Grid item xs={1}>
+          <Button variant="contained" color="primary" fullWidth>
+            Voltar
           </Button>
         </Grid>
       </Grid>
