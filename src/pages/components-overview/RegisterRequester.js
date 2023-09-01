@@ -1,14 +1,7 @@
 import React from 'react';
-import { TextField, Button, Grid, Select, MenuItem, InputLabel, FormControl } from '@mui/material';
+import { TextField, Button, Grid, Paper } from '@mui/material';
 
 const RegisterRequester = () => {
-
-  const [estoque, setEstoque] = React.useState('');
-
-  const handleEstoqueChange = (event) => {
-    setEstoque(event.target.value);
-  };
-
   return (
     <Paper elevation={3} style={{ padding: 20, margin: 'auto' }}>
       <Grid container spacing={2}>

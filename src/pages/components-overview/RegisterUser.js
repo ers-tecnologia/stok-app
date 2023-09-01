@@ -1,5 +1,5 @@
 import React from 'react';
-import { TextField, Button, Grid, FormControl, FormControlLabel, Checkbox} from '@mui/material';
+import { TextField, Button, Grid, FormControl, Paper, InputLabel, MenuItem, Select } from '@mui/material';
 
 const RegisterUser = () => {
   const [estado, setEstado] = React.useState('');

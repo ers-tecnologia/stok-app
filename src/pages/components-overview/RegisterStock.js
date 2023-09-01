@@ -1,4 +1,4 @@
-import { TextField, Button, Grid, Paper } from '@mui/material';
+import { TextField, Button, Grid } from '@mui/material';
 
 const RegisterStock = () => {
   return (
