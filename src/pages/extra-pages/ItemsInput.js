@@ -1,6 +1,6 @@
-import React from 'react';
-import { useForm, Controller } from 'react-hook-form';
-import { TextField, Select, MenuItem, Button, Grid, Paper, Typography } from '@mui/material';
+import React, { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { TextField, Select, MenuItem, Button, Grid, Paper, Typography, FormControl, InputLabel } from '@mui/material';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
@@ -16,7 +16,6 @@ const ItemsInput = () => {
   const {
     register,
     handleSubmit,
-    control,
     formState: { errors }
   } = useForm({
     resolver: yupResolver(schema)
@@ -26,8 +25,10 @@ const ItemsInput = () => {
     console.log(data);
   };
 
+  const [originStock, setOriginStock] = useState('');
+
   return (
-    <Paper elevation={3} style={{ padding: 20, maxWidth: 500, margin: 'auto' }}>
+    <Paper elevation={3} style={{ padding: 20, margin: 'auto' }}>
       <Typography variant="h6" gutterBottom>
         Entrada de Itens
       </Typography>
@@ -41,7 +42,7 @@ const ItemsInput = () => {
             label="Buscar produto"
           />
         </Grid>
-        <Grid item xs={12}>
+        <Grid item xs={3}>
           <TextField
             sx={{ width: '100%' }}
             {...register('quantity')}
@@ -51,7 +52,7 @@ const ItemsInput = () => {
             type="number"
           />
         </Grid>
-        <Grid item xs={12}>
+        <Grid item xs={3}>
           <TextField
             sx={{ width: '100%' }}
             {...register('date')}
@@ -64,21 +65,16 @@ const ItemsInput = () => {
             }}
           />
         </Grid>
-        <Grid item xs={12}>
-          <Controller
-            sx={{ width: '100%' }}
-            name="stock"
-            control={control}
-            render={({ field }) => (
-              <Select {...field} error={!!errors.stock}>
-                <MenuItem value="stock1">Estoque 1</MenuItem>
-                <MenuItem value="stock2">Estoque 2</MenuItem>
-              </Select>
-            )}
-          />
-          {errors.stock && <p>{errors.stock.message}</p>}
+        <Grid item xs={3}>
+          <FormControl sx={{ width: '100%' }}>
+            <InputLabel id="origin-stock-label">Estoque de Origem</InputLabel>
+            <Select labelId="origin-stock-label" value={originStock} onChange={(e) => setOriginStock(e.target.value)}>
+              <MenuItem value="Stock 1">Stock 1</MenuItem>
+              <MenuItem value="Stock 2">Stock 2</MenuItem>
+            </Select>
+          </FormControl>
         </Grid>
-        <Grid item xs={12}>
+        <Grid item xs={3}>
           <TextField
             sx={{ width: '100%' }}
             {...register('user')}
@@ -88,9 +84,14 @@ const ItemsInput = () => {
             defaultValue="Usuário Logado"
           />
         </Grid>
-        <Grid item xs={12}>
-          <Button variant="contained" color="primary" type="submit" sx={{ width: '50%', mx: 'auto' }}>
-            Finalizar entrada
+        <Grid item xs={1}>
+          <Button variant="contained" color="success" fullWidth>
+            Salvar
+          </Button>
+        </Grid>
+        <Grid item xs={1}>
+          <Button variant="contained" color="primary" fullWidth>
+            Voltar
           </Button>
         </Grid>
       </Grid>

@@ -13,26 +13,21 @@ const OutputItems = () => {
   const [outputType, setOutputType] = useState('');
 
   return (
-    <Paper elevation={3} style={{ padding: 20, maxWidth: 500, margin: 'auto' }}>
+    <Paper elevation={3} style={{ padding: 20, margin: 'auto' }}>
       <Typography variant="h6" gutterBottom>
         Saída de Itens
       </Typography>
       <Grid container spacing={2}>
         <Grid item xs={12}>
-          <TextField
-            sx={{ width: '100%' }}
-            label="Pesquise por ID, nome ou categoria"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-          />
+          <TextField sx={{ width: '100%' }} label="Pesquise por ID ou Nome" value={search} onChange={(e) => setSearch(e.target.value)} />
         </Grid>
-        <Grid item xs={12}>
+        <Grid item xs={3}>
           <TextField sx={{ width: '100%' }} label="Quantidade" value={quantity} onChange={(e) => setQuantity(e.target.value)} />
         </Grid>
-        <Grid item xs={12}>
+        <Grid item xs={3}>
           <TextField sx={{ width: '100%' }} type="date" value={date} onChange={(e) => setDate(e.target.value)} />
         </Grid>
-        <Grid item xs={12}>
+        <Grid item xs={3}>
           <FormControl sx={{ width: '100%' }}>
             <InputLabel id="origin-stock-label">Estoque de Origem</InputLabel>
             <Select labelId="origin-stock-label" value={originStock} onChange={(e) => setOriginStock(e.target.value)}>
@@ -41,10 +36,10 @@ const OutputItems = () => {
             </Select>
           </FormControl>
         </Grid>
-        <Grid item xs={12}>
+        <Grid item xs={3}>
           <TextField sx={{ width: '100%' }} label="Usuário" value={user} onChange={(e) => setUser(e.target.value)} />
         </Grid>
-        <Grid item xs={12}>
+        <Grid item xs={3}>
           <FormControl sx={{ width: '100%' }}>
             <InputLabel id="solicitants-label">Solicitante</InputLabel>
             <Select labelId="solicitants-label" multiple value={solicitants} onChange={(e) => setSolicitants(e.target.value)}>
@@ -53,7 +48,7 @@ const OutputItems = () => {
             </Select>
           </FormControl>
         </Grid>
-        <Grid item xs={12}>
+        <Grid item xs={3}>
           <FormControl sx={{ width: '100%' }}>
             <InputLabel id="generate-receipt-label">Gerar recibo</InputLabel>
             <Select labelId="generate-receipt-label" value={generateReceipt} onChange={(e) => setGenerateReceipt(e.target.value)}>
@@ -62,7 +57,7 @@ const OutputItems = () => {
             </Select>
           </FormControl>
         </Grid>
-        <Grid item xs={12}>
+        <Grid item xs={3}>
           <FormControl sx={{ width: '100%' }}>
             <InputLabel id="output-type-label">Tipo de Saída</InputLabel>
             <Select labelId="output-type-label" value={outputType} onChange={(e) => setOutputType(e.target.value)}>
@@ -72,7 +67,7 @@ const OutputItems = () => {
           </FormControl>
         </Grid>
         {outputType === 'transfer' && (
-          <Grid item xs={12}>
+          <Grid item xs={3}>
             <FormControl sx={{ width: '100%' }}>
               <InputLabel id="destination-stock-label">Estoque de Destino</InputLabel>
               <Select labelId="destination-stock-label" value={destinationStock} onChange={(e) => setDestinationStock(e.target.value)}>
@@ -83,9 +78,18 @@ const OutputItems = () => {
           </Grid>
         )}
         <Grid item xs={12}>
-          <Button variant="contained" color="primary" type="submit" sx={{ width: '50%', mx: 'auto' }}>
-            Finalizar Saída
-          </Button>
+          <Grid container spacing={2}>
+            <Grid item xs={1}>
+              <Button variant="contained" color="success" fullWidth>
+                Salvar
+              </Button>
+            </Grid>
+            <Grid item xs={1}>
+              <Button variant="contained" color="primary" fullWidth>
+                Voltar
+              </Button>
+            </Grid>
+          </Grid>{' '}
         </Grid>
       </Grid>
     </Paper>
