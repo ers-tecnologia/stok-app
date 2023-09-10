@@ -66,10 +66,10 @@ const StockList = () => {
               <TableCell align="left">{item.state}</TableCell>
               <TableCell align="left">
                 <Button color="primary" onClick={() => history.push(`/cadastro-estoque/${item.id}`)}>
-                  <EditIcon/>
+                  <EditIcon />
                 </Button>
                 <Button color="secondary" onClick={() => deleteItem(item.id)}>
-                <DeleteIcon/>
+                  <DeleteIcon />
                 </Button>
               </TableCell>
             </TableRow>
@@ -81,7 +81,6 @@ const StockList = () => {
 };
 
 export default StockList;
-
 
 /*<Button sx={{ margin: '20px' }} variant="contained" color="primary" href="/free/cadastro-estoque">
           Novo

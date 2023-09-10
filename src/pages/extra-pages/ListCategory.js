@@ -7,11 +7,11 @@ const ListCategory = () => {
   const categoryItems = [
     {
       id: 1,
-      descricao: 'descricao1',
+      descricao: 'descricao1'
     },
     {
       id: 2,
-      descricao: 'descricao2',
+      descricao: 'descricao2'
     }
     // adicione mais itens conforme necessário
   ];
@@ -38,10 +38,10 @@ const ListCategory = () => {
               <TableCell align="left">{item.descricao}</TableCell>
               <TableCell align="center">
                 <Button color="primary" onClick={() => history.push(`/cadastro-estoque/${item.id}`)}>
-                  <EditIcon/>
+                  <EditIcon />
                 </Button>
                 <Button color="secondary" onClick={() => deleteItem(item.id)}>
-                <DeleteIcon/>
+                  <DeleteIcon />
                 </Button>
               </TableCell>
             </TableRow>

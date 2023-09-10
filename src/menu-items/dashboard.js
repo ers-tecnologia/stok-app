@@ -1,10 +1,11 @@
 // assets
-import { DashboardOutlined, BarChartOutlined } from '@ant-design/icons';
+import { DashboardOutlined, BarChartOutlined, HomeOutlined } from '@ant-design/icons';
 
 // icons
 const icons = {
   DashboardOutlined,
-  BarChartOutlined
+  BarChartOutlined,
+  HomeOutlined
 };
 
 // ==============================|| MENU ITEMS - DASHBOARD ||============================== //
@@ -16,10 +17,10 @@ const dashboard = {
   children: [
     {
       id: 'relatorios',
-      title: 'Relatórios',
+      title: 'Tela Inicial',
       type: 'item',
       url: '/dashboard/default',
-      icon: icons.BarChartOutlined,
+      icon: icons.HomeOutlined,
       breadcrumbs: false
     }
   ]

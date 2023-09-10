@@ -66,10 +66,10 @@ const ProductList = () => {
               <TableCell align="left">{item.usuario_criacao}</TableCell>
               <TableCell align="left">
                 <Button color="primary" onClick={() => history.push(`/cadastro-produto/${item.id}`)}>
-                  <EditIcon/>
+                  <EditIcon />
                 </Button>
                 <Button color="secondary" onClick={() => deleteItem(item.id)}>
-                <DeleteIcon/>
+                  <DeleteIcon />
                 </Button>
               </TableCell>
             </TableRow>

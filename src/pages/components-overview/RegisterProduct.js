@@ -1,9 +1,11 @@
 import React from 'react';
-import { TextField, Button, Grid, Paper, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import { TextField, Button, Grid, Paper, FormControl, InputLabel, Select, MenuItem, Typography } from '@mui/material';
 
 const RegisterProduct = () => {
   const [categoria, setCategoria] = React.useState('');
   const [estado, setEstado] = React.useState('');
+  const [selectedFile, setSelectedFile] = React.useState(null);
 
   const handleCategoriaChange = (event) => {
     setCategoria(event.target.value);
@@ -13,16 +15,21 @@ const RegisterProduct = () => {
     setEstado(event.target.value);
   };
 
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    setSelectedFile(file);
+  };
+
   return (
     <Paper elevation={3} style={{ padding: 20, margin: 'auto' }}>
       <Grid container spacing={2}>
         <Grid item xs={1}>
           <TextField label="ID" type="number" disabled fullWidth />
         </Grid>
-        <Grid item xs={3}>
+        <Grid item xs={2}>
           <TextField label="Patrimônio" type="number" fullWidth />
         </Grid>
-        <Grid item xs={8}>
+        <Grid item xs={9}>
           <TextField label="Descrição" fullWidth />
         </Grid>
         <Grid item xs={3}>
@@ -53,6 +60,21 @@ const RegisterProduct = () => {
         </Grid>
         <Grid item xs={2}>
           <TextField label="Ponto de pedido" type="number" fullWidth />
+        </Grid>
+        <Grid item xs={2}>
+          <input
+            accept=".jpg,.png"
+            style={{ display: 'none' }}
+            id="upload-photo"
+            type="file"
+            onChange={handleFileChange} // Chama a função quando o arquivo é selecionado
+          />
+          <label htmlFor="upload-photo">
+            <Button variant="contained" color="secondary" component="span" startIcon={<CloudUploadIcon />}>
+              Foto produto
+            </Button>
+          </label>
+          {selectedFile && <Typography variant="body1">Arquivo selecionado: {selectedFile.name}</Typography>}
         </Grid>
         <Grid item xs={12}>
           <Grid container spacing={1}>

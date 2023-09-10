@@ -46,11 +46,10 @@ const MainRoutes = {
       ]
     },
 
-
-   //estoque
+    //estoque
     {
       path: 'lista-estoque',
-      element: <StockList/>
+      element: <StockList />
     },
     {
       path: 'cadastro-estoque',
@@ -60,7 +59,7 @@ const MainRoutes = {
     {
       path: 'lista-categoria',
       element: <ListCategory />
-    },      
+    },
     {
       path: 'cadastro-categoria',
       element: <RegisterCategory />

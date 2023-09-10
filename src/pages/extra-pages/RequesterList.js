@@ -9,13 +9,13 @@ const RequesterList = () => {
       id: 1,
       name: 'Nome 1',
       telefone: '24574151',
-      estoque: 'CNPJ 1',
+      estoque: 'CNPJ 1'
     },
     {
       id: 2,
       name: 'Nome 2',
       telefone: '196498651',
-      estoque: 'CNPJ 2',
+      estoque: 'CNPJ 2'
     }
     // adicione mais itens conforme necessário
   ];
@@ -46,10 +46,10 @@ const RequesterList = () => {
               <TableCell align="left">{item.estoque}</TableCell>
               <TableCell align="center">
                 <Button color="primary" onClick={() => history.push(`/cadastro-estoque/${item.id}`)}>
-                  <EditIcon/>
+                  <EditIcon />
                 </Button>
                 <Button color="secondary" onClick={() => deleteItem(item.id)}>
-                <DeleteIcon/>
+                  <DeleteIcon />
                 </Button>
               </TableCell>
             </TableRow>
