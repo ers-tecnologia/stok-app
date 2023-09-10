@@ -42,7 +42,7 @@ const ItemsInput = () => {
             label="Buscar produto"
           />
         </Grid>
-        <Grid item xs={3}>
+        <Grid item xs={2}>
           <TextField
             sx={{ width: '100%' }}
             {...register('quantity')}
@@ -50,6 +50,16 @@ const ItemsInput = () => {
             helperText={errors.quantity?.message}
             label="Quantidade"
             type="number"
+          />
+        </Grid>
+        <Grid item xs={2}>
+          <TextField
+            sx={{ width: '100%' }}
+            {...register('quantity')}
+            error={!!errors.quantity}
+            helperText={errors.quantity?.message}
+            label="Preço"
+            type="float"
           />
         </Grid>
         <Grid item xs={3}>
@@ -74,7 +84,7 @@ const ItemsInput = () => {
             </Select>
           </FormControl>
         </Grid>
-        <Grid item xs={3}>
+        <Grid item xs={2}>
           <TextField
             sx={{ width: '100%' }}
             {...register('user')}

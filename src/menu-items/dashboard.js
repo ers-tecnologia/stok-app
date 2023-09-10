@@ -15,14 +15,6 @@ const dashboard = {
   type: 'group',
   children: [
     {
-      id: 'dashboard',
-      title: 'Dashboard',
-      type: 'item',
-      url: '/dashboard/default',
-      icon: icons.DashboardOutlined,
-      breadcrumbs: false
-    },
-    {
       id: 'relatorios',
       title: 'Relatórios',
       type: 'item',
