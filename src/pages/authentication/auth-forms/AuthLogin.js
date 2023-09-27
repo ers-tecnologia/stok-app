@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 // material-ui
 import { Button, FormHelperText, Grid, IconButton, InputAdornment, InputLabel, OutlinedInput, Stack } from '@mui/material';
@@ -16,6 +17,7 @@ import { EyeOutlined, EyeInvisibleOutlined } from '@ant-design/icons';
 // ============================|| FIREBASE - LOGIN ||============================ //
 
 const AuthLogin = () => {
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = React.useState(false);
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
@@ -41,6 +43,7 @@ const AuthLogin = () => {
           try {
             setStatus({ success: false });
             setSubmitting(false);
+            navigate('/dashboard/default');
           } catch (err) {
             setStatus({ success: false });
             setErrors({ submit: err.message });
