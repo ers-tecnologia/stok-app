@@ -1,5 +1,7 @@
 import React from 'react';
 import { TextField, Button, Grid, Paper } from '@mui/material';
+import { Link } from 'react-router-dom';
+
 
 const RegisterCategory = () => {
   return (
@@ -17,7 +19,7 @@ const RegisterCategory = () => {
           </Button>
         </Grid>
         <Grid item xs={1}>
-          <Button variant="contained" color="primary" fullWidth>
+          <Button variant="contained" component={Link} to="/lista-categoria" color="primary" fullWidth>
             Voltar
           </Button>
         </Grid>

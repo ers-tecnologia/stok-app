@@ -1,6 +1,7 @@
 import React from 'react';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { TextField, Button, Grid, Paper, FormControl, InputLabel, Select, MenuItem, Typography } from '@mui/material';
+import { Link } from 'react-router-dom';
 
 const RegisterProduct = () => {
   const [categoria, setCategoria] = React.useState('');
@@ -84,7 +85,7 @@ const RegisterProduct = () => {
               </Button>
             </Grid>
             <Grid item xs={1}>
-              <Button variant="contained" color="primary" fullWidth>
+              <Button variant="contained" component={Link} to="/lista-produto" color="primary" fullWidth>
                 Voltar
               </Button>
             </Grid>

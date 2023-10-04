@@ -7,25 +7,11 @@ const StockList = () => {
   const stockItems = [
     {
       id: 1,
-      unitType: 'Tipo 1',
-      name: 'Nome 1',
-      cnpj: 'CNPJ 1',
-      street: 'Rua 1',
-      number: 'Número 1',
-      neighborhood: 'Bairro 1',
-      city: 'Cidade 1',
-      state: 'Estado 1'
+      descricao: 'fdsiauvfçdaunfçaugdçuaçdugnçasdungçdsungçaungdçngaçngçn'
     },
     {
       id: 2,
-      unitType: 'Tipo 2',
-      name: 'Nome 2',
-      cnpj: 'CNPJ 2',
-      street: 'Rua 2',
-      number: 'Número 2',
-      neighborhood: 'Bairro 2',
-      city: 'Cidade 2',
-      state: 'Estado 2'
+      descricao: 'çfdlandçgoiançogndçaong'
     }
     // adicione mais itens conforme necessário
   ];
@@ -39,14 +25,7 @@ const StockList = () => {
         <TableHead>
           <TableRow>
             <TableCell>ID</TableCell>
-            <TableCell align="left">Tipo de Unidade</TableCell>
-            <TableCell align="left">Nome/Razão Social</TableCell>
-            <TableCell align="left">CNPJ</TableCell>
-            <TableCell align="left">Rua</TableCell>
-            <TableCell align="left">Número</TableCell>
-            <TableCell align="left">Bairro</TableCell>
-            <TableCell align="left">Cidade</TableCell>
-            <TableCell align="left">Estado Sigla</TableCell>
+            <TableCell align="left">Descrição</TableCell>
             <TableCell align="center">Ações</TableCell>
           </TableRow>
         </TableHead>
@@ -56,15 +35,8 @@ const StockList = () => {
               <TableCell component="th" scope="row">
                 {item.id}
               </TableCell>
-              <TableCell align="left">{item.unitType}</TableCell>
-              <TableCell align="left">{item.name}</TableCell>
-              <TableCell align="left">{item.cnpj}</TableCell>
-              <TableCell align="left">{item.street}</TableCell>
-              <TableCell align="left">{item.number}</TableCell>
-              <TableCell align="left">{item.neighborhood}</TableCell>
-              <TableCell align="left">{item.city}</TableCell>
-              <TableCell align="left">{item.state}</TableCell>
-              <TableCell align="left">
+              <TableCell align="left">{item.descricao}</TableCell>
+              <TableCell align="center">
                 <Button color="primary" onClick={() => history.push(`/cadastro-estoque/${item.id}`)}>
                   <EditIcon />
                 </Button>

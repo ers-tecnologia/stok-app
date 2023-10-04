@@ -7,15 +7,11 @@ const RequesterList = () => {
   const solicitanteItems = [
     {
       id: 1,
-      name: 'Nome 1',
-      telefone: '24574151',
-      estoque: 'CNPJ 1'
+      name: 'Nome 1'
     },
     {
       id: 2,
-      name: 'Nome 2',
-      telefone: '196498651',
-      estoque: 'CNPJ 2'
+      name: 'Nome 2'
     }
     // adicione mais itens conforme necessário
   ];
@@ -30,8 +26,6 @@ const RequesterList = () => {
           <TableRow>
             <TableCell>ID</TableCell>
             <TableCell align="left">Nome</TableCell>
-            <TableCell align="left">Telefone</TableCell>
-            <TableCell align="left">Estoque</TableCell>
             <TableCell align="center">Ações</TableCell>
           </TableRow>
         </TableHead>
@@ -42,8 +36,6 @@ const RequesterList = () => {
                 {item.id}
               </TableCell>
               <TableCell align="left">{item.name}</TableCell>
-              <TableCell align="left">{item.telefone}</TableCell>
-              <TableCell align="left">{item.estoque}</TableCell>
               <TableCell align="center">
                 <Button color="primary" onClick={() => history.push(`/cadastro-estoque/${item.id}`)}>
                   <EditIcon />

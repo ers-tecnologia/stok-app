@@ -1,5 +1,7 @@
 import React from 'react';
 import { TextField, Button, Grid, FormControl, Paper, MenuItem, InputLabel, Select } from '@mui/material';
+import { Link } from 'react-router-dom';
+
 
 const RegisterUser = () => {
   const [estado, setEstado] = React.useState('');
@@ -38,7 +40,7 @@ const RegisterUser = () => {
               </Button>
             </Grid>
             <Grid item xs={1}>
-              <Button variant="contained" color="primary" fullWidth>
+              <Button variant="contained" component={Link} to="/lista-usuario" color="primary" fullWidth>
                 Voltar
               </Button>
             </Grid>
