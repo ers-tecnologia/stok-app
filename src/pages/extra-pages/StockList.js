@@ -2,19 +2,28 @@ import { Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRo
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 
 const StockList = () => {
-  const stockItems = [
-    {
-      id: 1,
-      descricao: 'fdsiauvfçdaunfçaugdçuaçdugnçasdungçdsungçaungdçngaçngçn'
-    },
-    {
-      id: 2,
-      descricao: 'çfdlandçgoiançogndçaong'
-    }
-    // adicione mais itens conforme necessário
-  ];
+
+  const [estoque, setEstoques] = useState([]);
+
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch("http://localhost:3000/api/estoque");
+        const data = await response.json();
+        setEstoques(data);
+      } catch (error) {
+        console.error("Error fetching data: ", error);
+      }
+    };
+
+    fetchData();
+ }, []);
+
+  
 
   return (
     <TableContainer component={Paper}>
@@ -30,7 +39,7 @@ const StockList = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {stockItems.map((item) => (
+          {estoque.map((item) => (
             <TableRow key={item.id}>
               <TableCell component="th" scope="row">
                 {item.id}

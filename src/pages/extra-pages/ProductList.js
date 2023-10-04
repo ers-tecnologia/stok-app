@@ -2,33 +2,29 @@ import { Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRo
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 
 const ProductList = () => {
-  const productItems = [
-    {
-      id: 1,
-      patrimonio: 'Tipo 1',
-      descricao: 'Nome 1',
-      categoria: 'CNPJ 1',
-      estado: 'Rua 1',
-      estoque_max: 'Número 1',
-      estoque_min: 'Bairro 1',
-      data: 'Cidade 1',
-      usuario_criacao: 'Estado 1'
-    },
-    {
-      id: 2,
-      patrimonio: 'Tipo 2',
-      descricao: 'Nome 2',
-      categoria: 'CNPJ 2',
-      estado: 'Rua 2',
-      estoque_max: 'Número 2',
-      estoque_min: 'Bairro 2',
-      data: 'Cidade 2',
-      usuario_criacao: 'Estado 2'
-    }
-    // adicione mais itens conforme necessário
-  ];
+
+  const [produto, setProduto] = useState([]);
+
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch("http://localhost:3000/api/produto");
+        const data = await response.json();
+        setProduto(data);
+      } catch (error) {
+        console.error("Error fetching data: ", error);
+      }
+    };
+
+    fetchData();
+ }, []);
+  
+
+
 
   return (
     <TableContainer component={Paper}>
@@ -45,13 +41,11 @@ const ProductList = () => {
             <TableCell align="left">Estado</TableCell>
             <TableCell align="left">Estoque Min.</TableCell>
             <TableCell align="left">Estoque Max.</TableCell>
-            <TableCell align="left">Data</TableCell>
-            <TableCell align="left">Usuário de Criação</TableCell>
             <TableCell align="center">Ações</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {productItems.map((item) => (
+          {produto.map((item) => (
             <TableRow key={item.id}>
               <TableCell component="th" scope="row">
                 {item.id}
@@ -60,11 +54,9 @@ const ProductList = () => {
               <TableCell align="left">{item.descricao}</TableCell>
               <TableCell align="left">{item.categoria}</TableCell>
               <TableCell align="left">{item.estado}</TableCell>
-              <TableCell align="left">{item.estoque_max}</TableCell>
-              <TableCell align="left">{item.estoque_min}</TableCell>
-              <TableCell align="left">{item.data}</TableCell>
-              <TableCell align="left">{item.usuario_criacao}</TableCell>
-              <TableCell align="left">
+              <TableCell align="left">{item.estoqueMaximo}</TableCell>
+              <TableCell align="left">{item.estoqueMinimo}</TableCell>
+              <TableCell align="center">
                 <Button color="primary" onClick={() => history.push(`/cadastro-produto/${item.id}`)}>
                   <EditIcon />
                 </Button>

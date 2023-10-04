@@ -3,6 +3,11 @@ import { TextField, Button, Grid, Paper } from '@mui/material';
 import { Link } from 'react-router-dom';
 
 const RegisterStock = () => {
+
+
+
+
+  
   return (
     <Paper elevation={3} style={{ padding: 20, margin: 'auto' }}>
       <Grid container spacing={2}>

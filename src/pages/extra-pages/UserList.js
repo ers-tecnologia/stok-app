@@ -2,27 +2,29 @@ import { Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRo
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 
-const StockList = () => {
-  const stockItems = [
-    {
-      id: 1,
-      name: 'Nome 1',
-      email: 'CNPJ 1',
-      senha: 'Rua 1',
-      perfil: 'Número 1',
-      estoque: 'Bairro 1'
-    },
-    {
-      id: 2,
-      name: 'Nome 2',
-      email: 'CNPJ 2',
-      senha: 'Rua 2',
-      perfil: 'Número 2',
-      estoque: 'Bairro 2'
-    }
-    // adicione mais itens conforme necessário
-  ];
+const UserList = () => {
+
+  const [usuario, setUsuario] = useState([]);
+
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch("http://localhost:3000/api/usuario");
+        const data = await response.json();
+        setUsuario(data);
+      } catch (error) {
+        console.error("Error fetching data: ", error);
+      }
+    };
+
+    fetchData();
+ }, []);
+
+
+ 
 
   return (
     <TableContainer component={Paper}>
@@ -37,21 +39,19 @@ const StockList = () => {
             <TableCell align="left">Email</TableCell>
             <TableCell align="left">Senha</TableCell>
             <TableCell align="left">Perfil</TableCell>
-            <TableCell align="left">Estoque</TableCell>
             <TableCell align="center">Ações</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {stockItems.map((item) => (
+          {usuario.map((item) => (
             <TableRow key={item.id}>
               <TableCell component="th" scope="row">
                 {item.id}
               </TableCell>
-              <TableCell align="left">{item.name}</TableCell>
+              <TableCell align="left">{item.nome}</TableCell>
               <TableCell align="left">{item.email}</TableCell>
               <TableCell align="left">{item.senha}</TableCell>
               <TableCell align="left">{item.perfil}</TableCell>
-              <TableCell align="left">{item.estoque}</TableCell>
               <TableCell align="center">
                 <Button color="primary" onClick={() => history.push(`/cadastro-estoque/${item.id}`)}>
                   <EditIcon />
@@ -68,4 +68,4 @@ const StockList = () => {
   );
 };
 
-export default StockList;
+export default UserList;

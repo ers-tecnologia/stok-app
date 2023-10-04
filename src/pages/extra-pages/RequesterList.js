@@ -2,19 +2,27 @@ import { Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRo
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 
 const RequesterList = () => {
-  const solicitanteItems = [
-    {
-      id: 1,
-      name: 'Nome 1'
-    },
-    {
-      id: 2,
-      name: 'Nome 2'
-    }
-    // adicione mais itens conforme necessário
-  ];
+
+  const [solicitante, setSolicitante] = useState([]);
+
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch("http://localhost:3000/api/solicitante");
+        const data = await response.json();
+        setSolicitante(data);
+      } catch (error) {
+        console.error("Error fetching data: ", error);
+      }
+    };
+
+    fetchData();
+ }, []);
+ 
 
   return (
     <TableContainer component={Paper}>
@@ -30,12 +38,12 @@ const RequesterList = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {solicitanteItems.map((item) => (
+          {solicitante.map((item) => (
             <TableRow key={item.id}>
               <TableCell component="th" scope="row">
                 {item.id}
               </TableCell>
-              <TableCell align="left">{item.name}</TableCell>
+              <TableCell align="left">{item.nome}</TableCell>
               <TableCell align="center">
                 <Button color="primary" onClick={() => history.push(`/cadastro-estoque/${item.id}`)}>
                   <EditIcon />

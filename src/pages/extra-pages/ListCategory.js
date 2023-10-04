@@ -2,19 +2,26 @@ import { Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRo
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 
 const ListCategory = () => {
-  const categoryItems = [
-    {
-      id: 1,
-      descricao: 'descricao1'
-    },
-    {
-      id: 2,
-      descricao: 'descricao2'
-    }
-    // adicione mais itens conforme necessário
-  ];
+
+  const [categoria, setCategoria] = useState([]);
+
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch("http://localhost:3000/api/categoria");
+        const data = await response.json();
+        setCategoria(data);
+      } catch (error) {
+        console.error("Error fetching data: ", error);
+      }
+    };
+
+    fetchData();
+ }, []);
 
   return (
     <TableContainer component={Paper}>
@@ -30,7 +37,7 @@ const ListCategory = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {categoryItems.map((item) => (
+          {categoria.map((item) => (
             <TableRow key={item.id}>
               <TableCell component="th" scope="row">
                 {item.id}
