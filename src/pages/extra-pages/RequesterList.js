@@ -22,6 +22,17 @@ const RequesterList = () => {
 
     fetchData();
  }, []);
+
+ const deleteItem = async (id) => {
+  try {
+    await fetch(`http://localhost:3000/api/solicitante/${id}`, { method: 'DELETE' });
+    const response = await fetch("http://localhost:3000/api/solicitante");
+    const data = await response.json();
+    setSolicitante(data);
+  } catch (error) {
+    console.error("Error deleting item: ", error);
+  }
+};
  
 
   return (

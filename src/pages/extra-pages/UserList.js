@@ -23,6 +23,17 @@ const UserList = () => {
     fetchData();
  }, []);
 
+ const deleteItem = async (id) => {
+  try {
+    await fetch(`http://localhost:3000/api/usuario/${id}`, { method: 'DELETE' });
+    const response = await fetch("http://localhost:3000/api/usuario");
+    const data = await response.json();
+    setUsuario(data);
+  } catch (error) {
+    console.error("Error deleting item: ", error);
+  }
+};
+
 
  
 

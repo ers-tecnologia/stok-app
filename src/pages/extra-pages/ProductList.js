@@ -5,26 +5,32 @@ import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
 const ProductList = () => {
-
   const [produto, setProduto] = useState([]);
-
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("http://localhost:3000/api/produto");
+        const response = await fetch('http://localhost:3000/api/produto');
         const data = await response.json();
         setProduto(data);
       } catch (error) {
-        console.error("Error fetching data: ", error);
+        console.error('Error fetching data: ', error);
       }
     };
 
     fetchData();
- }, []);
-  
+  }, []);
 
-
+  const deleteItem = async (id) => {
+    try {
+      await fetch(`http://localhost:3000/api/produto/${id}`, { method: 'DELETE' });
+      const response = await fetch('http://localhost:3000/api/produto');
+      const data = await response.json();
+      setProduto(data);
+    } catch (error) {
+      console.error('Error deleting item: ', error);
+    }
+  };
 
   return (
     <TableContainer component={Paper}>

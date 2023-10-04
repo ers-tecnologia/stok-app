@@ -23,6 +23,17 @@ const ListCategory = () => {
     fetchData();
  }, []);
 
+ const deleteItem = async (id) => {
+  try {
+    await fetch(`http://localhost:3000/api/categoria/${id}`, { method: 'DELETE' });
+    const response = await fetch("http://localhost:3000/api/categoria");
+    const data = await response.json();
+    setCategoria(data);
+  } catch (error) {
+    console.error("Error deleting item: ", error);
+  }
+};
+
   return (
     <TableContainer component={Paper}>
       <Button variant="contained" color="primary" component={Link} to="/cadastro-categoria">

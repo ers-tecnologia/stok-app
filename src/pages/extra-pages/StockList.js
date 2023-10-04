@@ -23,6 +23,17 @@ const StockList = () => {
     fetchData();
  }, []);
 
+ const deleteItem = async (id) => {
+  try {
+    await fetch(`http://localhost:3000/api/estoque/${id}`, { method: 'DELETE' });
+    const response = await fetch("http://localhost:3000/api/estoque");
+    const data = await response.json();
+    setEstoques(data);
+  } catch (error) {
+    console.error("Error deleting item: ", error);
+  }
+};
+
   
 
   return (
