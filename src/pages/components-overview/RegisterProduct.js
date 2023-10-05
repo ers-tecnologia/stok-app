@@ -1,9 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { TextField, Button, Grid, Paper, FormControl, InputLabel, Select, MenuItem, Typography } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const RegisterProduct = () => {
+  const navigate = useNavigate()
+  const [id, setId] = useState();
+  const [patrimonio, setPatrimonio] = useState();
+  const [descricao, setDescricao] = useState();
+  const [estoqueMinimo, setEstoqueMinimo] = useState();
+  const [estoqueMaximo, setEstiqueMaximo] = useState();
+  const [pedido, setPedido] = useState();
   const [categoria, setCategoria] = React.useState('');
   const [estado, setEstado] = React.useState('');
   const [selectedFile, setSelectedFile] = React.useState(null);
@@ -21,17 +28,33 @@ const RegisterProduct = () => {
     setSelectedFile(file);
   };
 
+  const handleSave = async () => {
+    const response = await fetch('http://localhost:3000/api/produto', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ patrimonio, descricao, categoria, estado, estoqueMinimo, estoqueMaximo })
+    });
+
+    if (response.ok) {
+      navigate('/lista-produto');
+    } else {
+      console.log("ERRO");
+    }
+  };
+
   return (
     <Paper elevation={3} style={{ padding: 20, margin: 'auto' }}>
       <Grid container spacing={2}>
         <Grid item xs={1}>
-          <TextField label="ID" type="number" disabled fullWidth />
+          <TextField label="ID" type="number" disabled fullWidth value={id} onChange={(e) => setId(e.target.value)} />
         </Grid>
         <Grid item xs={2}>
-          <TextField label="Patrimônio" type="number" fullWidth />
+          <TextField label="Patrimônio" type="number" fullWidth value={patrimonio} onChange={(e) => setPatrimonio(e.target.value)} />
         </Grid>
         <Grid item xs={9}>
-          <TextField label="Descrição" fullWidth />
+          <TextField label="Descrição" fullWidth value={descricao} onChange={(e) => setDescricao(e.target.value)} />
         </Grid>
         <Grid item xs={3}>
           <FormControl fullWidth>
@@ -54,13 +77,25 @@ const RegisterProduct = () => {
           </FormControl>
         </Grid>
         <Grid item xs={2}>
-          <TextField label="Estoque Mínimo" type="number" fullWidth />
+          <TextField
+            label="Estoque Mínimo"
+            type="number"
+            fullWidth
+            value={estoqueMinimo}
+            onChange={(e) => setEstoqueMinimo(e.target.value)}
+          />
         </Grid>
         <Grid item xs={2}>
-          <TextField label="Estoque Máximo" type="number" fullWidth />
+          <TextField
+            label="Estoque Máximo"
+            type="number"
+            fullWidth
+            value={estoqueMaximo}
+            onChange={(e) => setEstiqueMaximo(e.target.value)}
+          />
         </Grid>
         <Grid item xs={2}>
-          <TextField label="Ponto de pedido" type="number" fullWidth />
+          <TextField label="Ponto de pedido" type="number" fullWidth value={pedido} onChange={(e) => setPedido(e.target.value)} />
         </Grid>
         <Grid item xs={2}>
           <input
@@ -80,7 +115,7 @@ const RegisterProduct = () => {
         <Grid item xs={12}>
           <Grid container spacing={1}>
             <Grid item xs={1}>
-              <Button variant="contained" color="success" fullWidth>
+              <Button variant="contained" color="success" fullWidth onClick={handleSave}>
                 Salvar
               </Button>
             </Grid>

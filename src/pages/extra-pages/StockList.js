@@ -3,10 +3,12 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import { useNavigate } from '../../../node_modules/react-router-dom/dist/index';
 
 const StockList = () => {
-
+ const navigate =  useNavigate()
   const [estoque, setEstoques] = useState([]);
+
 
 
   useEffect(() => {
@@ -23,6 +25,8 @@ const StockList = () => {
     fetchData();
  }, []);
 
+
+
  const deleteItem = async (id) => {
   try {
     await fetch(`http://localhost:3000/api/estoque/${id}`, { method: 'DELETE' });
@@ -33,6 +37,8 @@ const StockList = () => {
     console.error("Error deleting item: ", error);
   }
 };
+
+
 
   
 
@@ -57,7 +63,7 @@ const StockList = () => {
               </TableCell>
               <TableCell align="left">{item.descricao}</TableCell>
               <TableCell align="center">
-                <Button color="primary" onClick={() => history.push(`/cadastro-estoque/${item.id}`)}>
+                <Button color="primary" onClick={() => navigate(`/cadastro-estoque/${item.id}`)}>
                   <EditIcon />
                 </Button>
                 <Button color="secondary" onClick={() => deleteItem(item.id)}>

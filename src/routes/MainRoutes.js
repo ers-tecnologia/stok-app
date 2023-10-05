@@ -55,6 +55,10 @@ const MainRoutes = {
       path: 'cadastro-estoque',
       element: <RegisterStock />
     },
+    {
+      path: 'cadastro-estoque/:id',
+      element: <RegisterStock />
+    },
     //categoria
     {
       path: 'lista-categoria',
