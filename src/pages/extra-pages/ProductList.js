@@ -1,10 +1,11 @@
 import { Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
 const ProductList = () => {
+  const navigate = useNavigate()
   const [produto, setProduto] = useState([]);
 
   useEffect(() => {
@@ -64,7 +65,7 @@ const ProductList = () => {
               <TableCell align="left">{item.estoqueMaximo}</TableCell>
               <TableCell align="left">{item.estoqueMinimo}</TableCell>
               <TableCell align="center">
-                <Button color="primary" onClick={() => history.push(`/cadastro-produto/${item.id}`)}>
+                <Button color="primary" onClick={() => navigate(`/cadastro-produto/${item.id}`)}>
                   <EditIcon />
                 </Button>
                 <Button color="secondary" onClick={() => deleteItem(item.id)}>

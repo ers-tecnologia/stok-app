@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { TextField, Button, Grid, Paper, FormControl, InputLabel, Select, MenuItem, Typography } from '@mui/material';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 
 const RegisterProduct = () => {
+  const { id: itemId } = useParams();
   const navigate = useNavigate()
-  const [id, setId] = useState();
-  const [patrimonio, setPatrimonio] = useState();
-  const [descricao, setDescricao] = useState();
-  const [estoqueMinimo, setEstoqueMinimo] = useState();
-  const [estoqueMaximo, setEstiqueMaximo] = useState();
+  const [id, setId] = useState('');
+  const [patrimonio, setPatrimonio] = useState('');
+  const [descricao, setDescricao] = useState('');
+  const [estoqueMinimo, setEstoqueMinimo] = useState('');
+  const [estoqueMaximo, setEstiqueMaximo] = useState('');
   const [pedido, setPedido] = useState();
   const [categoriaId, setCategoriaId] = React.useState('');
   const [categorias, setCategorias] = useState([]);
@@ -30,6 +31,28 @@ const RegisterProduct = () => {
   };
 
   useEffect(() => {
+    if (itemId) {
+      const fetchData = async () => {
+        try {
+          const response = await fetch(`http://localhost:3000/api/produto/${itemId}`);
+          const data = await response.json();
+          setId(data.id);
+          setDescricao(data.descricao);
+          setPatrimonio(data.patrimonio);
+          setEstoqueMinimo(data.estoqueMinimo);
+          setEstiqueMaximo(data.estoqueMaximo);
+          setCategoriaId(data.categoriaId);
+          setEstado(data.estado);
+        } catch (error) {
+          console.error("Error fetching data: ", error);
+        }
+      };
+  
+      fetchData();
+    }
+  }, [itemId]);
+
+  useEffect(() => {
     const fetchCategorias = async () => {
       const response = await fetch('http://localhost:3000/api/categoria');
       const data = await response.json();
@@ -40,14 +63,17 @@ const RegisterProduct = () => {
   }, []);
 
   const handleSave = async () => {
-    const response = await fetch('http://localhost:3000/api/produto', {
-      method: 'POST',
+    const method = itemId ? 'PUT' : 'POST';
+    const url = itemId ? `http://localhost:3000/api/produto/${itemId}` : 'http://localhost:3000/api/produto';
+  
+    const response = await fetch(url, {
+      method,
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ patrimonio, descricao, categoriaId, estado, estoqueMinimo, estoqueMaximo })
+      body: JSON.stringify({patrimonio, descricao, categoriaId, estado, estoqueMinimo, estoqueMaximo,  }),
     });
-
+  
     if (response.ok) {
       navigate('/lista-produto');
     } else {

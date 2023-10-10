@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form';
 import { TextField, Select, MenuItem, Button, Grid, Paper, Typography, FormControl, InputLabel } from '@mui/material';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+import { Link, useNavigate, useParams } from '../../../node_modules/react-router-dom/dist/index';
 
 const schema = yup.object().shape({
   quantidade: yup.number().required('Campo obrigatório'),
@@ -12,10 +13,13 @@ const schema = yup.object().shape({
 });
 
 const ItemsInput = () => {
+  const { id: itemId } = useParams();
+  const navigate = useNavigate();
+  const [id, setId] = useState('');
   const [produtoId, setProdutoId] = useState([]);
   const [produtosId, setProdutosId] = useState([]);
-  const [quantidade, setQuantidade] = useState();
-  const [preco, setPreco] = useState();
+  const [quantidade, setQuantidade] = useState('');
+  const [preco, setPreco] = useState('');
   const [estoqueId, setEstoqueId] = useState([]);
   const [estoques, setEstoques] = useState([]);
   const [dataEntrada, setData] = useState();
@@ -37,19 +41,44 @@ const ItemsInput = () => {
   };
 
   const onSubmit = async () => {
-    const response = await fetch('http://localhost:3000/api/entrada-item', {
-      method: 'POST',
+    const method = itemId ? 'PUT' : 'POST';
+    const url = itemId ? `http://localhost:3000/api/entrada-item/${itemId}` : 'http://localhost:3000/api/entrada-item';
+
+    const response = await fetch(url, {
+      method,
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({ produtoId, quantidade, preco, dataEntrada, estoqueId })
     });
+
     if (response.ok) {
-      console.log("sucesso");
+      navigate('/lista-entrada-itens');
     } else {
       console.log('ERRO');
     }
   };
+
+  useEffect(() => {
+    if (itemId) {
+      const fetchData = async () => {
+        try {
+          const response = await fetch(`http://localhost:3000/api/entrada-item/${itemId}`);
+          const data = await response.json();
+          setId(data.id);
+          setProdutoId(data.produtoId);
+          setQuantidade(data.quantidade);
+          setPreco(data.preco);
+          setData(data.dataEntrada);
+          setEstoqueId(data.estoqueId);
+        } catch (error) {
+          console.error('Error fetching data: ', error);
+        }
+      };
+
+      fetchData();
+    }
+  }, [itemId]);
 
   useEffect(() => {
     const fetchProduto = async () => {
@@ -76,10 +105,13 @@ const ItemsInput = () => {
         Entrada de Itens
       </Typography>
       <Grid container spacing={2} component="form" onSubmit={handleSubmit}>
-        <Grid item xs={12}>
+        <Grid item xs={1}>
+          <TextField label="ID" type="number" disabled fullWidth value={id} onChange={(e) => setId(e.target.value)} />
+        </Grid>
+        <Grid item xs={11}>
           <FormControl fullWidth>
             <InputLabel id="produtoId-label">Buscar por Produtos</InputLabel>
-            <Select labelId="produtoId-label"  value={produtoId} onChange={handleProdutoIdChange}>
+            <Select labelId="produtoId-label" value={produtoId} onChange={handleProdutoIdChange}>
               {produtosId.map((produto) => (
                 <MenuItem key={produto.id} value={produto.id}>
                   {produto.descricao}
@@ -153,6 +185,11 @@ const ItemsInput = () => {
         <Grid item xs={1}>
           <Button variant="contained" onClick={onSubmit} color="success" fullWidth>
             Salvar
+          </Button>
+        </Grid>
+        <Grid item xs={1}>
+          <Button variant="contained" component={Link} to="/lista-entrada-itens" color="primary" fullWidth>
+            Voltar
           </Button>
         </Grid>
       </Grid>

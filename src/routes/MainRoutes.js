@@ -3,6 +3,8 @@ import { lazy } from 'react';
 // project import
 import Loadable from 'components/Loadable';
 import MainLayout from 'layout/MainLayout';
+import ItemsInputList from 'pages/extra-pages/ItemsInputList';
+import OutputItemsList from 'pages/extra-pages/OutputItemsList';
 
 // render - dashboard
 const DashboardDefault = Loadable(lazy(() => import('pages/dashboard')));
@@ -59,6 +61,7 @@ const MainRoutes = {
       path: 'cadastro-estoque/:id',
       element: <RegisterStock />
     },
+
     //categoria
     {
       path: 'lista-categoria',
@@ -68,6 +71,11 @@ const MainRoutes = {
       path: 'cadastro-categoria',
       element: <RegisterCategory />
     },
+    {
+      path: 'cadastro-categoria/:id',
+      element: <RegisterCategory />
+    },
+
     //produto
     {
       path: 'lista-produto',
@@ -77,6 +85,10 @@ const MainRoutes = {
       path: 'cadastro-produto',
       element: <RegisterProduct />
     },
+    {
+      path: 'cadastro-produto/:id',
+      element: <RegisterProduct />
+    },
     //solicitante
     {
       path: 'lista-solicitante',
@@ -84,6 +96,10 @@ const MainRoutes = {
     },
     {
       path: 'cadastro-solicitante',
+      element: <RegisterRequester />
+    },
+    {
+      path: 'cadastro-solicitante/:id',
       element: <RegisterRequester />
     },
     //usuario
@@ -96,8 +112,39 @@ const MainRoutes = {
       element: <RegisterUser />
     },
     {
+      path: 'cadastro-usuario/:id',
+      element: <RegisterUser />
+    },
+    {
       path: 'icons/ant',
       element: <AntIcons />
+    },
+    //entrada
+    {
+      path: 'lista-entrada-itens',
+      element: <ItemsInputList />
+    },
+    {
+      path: 'entrada-itens',
+      element: <ItemsInput />
+    },
+    {
+      path: 'entrada-itens/:id',
+      element: <ItemsInput />
+    },
+
+    //saida
+    {
+      path: 'lista-saida-itens',
+      element: <OutputItemsList />
+    },
+    {
+      path: 'saida-itens',
+      element: <OutputItems />
+    },
+    {
+      path: 'saida-itens/:id',
+      element: <OutputItems />
     },
     {
       path: 'devolucao-itens',
@@ -106,14 +153,6 @@ const MainRoutes = {
     {
       path: 'inventario',
       element: <Inventory />
-    },
-    {
-      path: 'entrada-itens',
-      element: <ItemsInput />
-    },
-    {
-      path: 'saida-itens',
-      element: <OutputItems />
     }
   ]
 };

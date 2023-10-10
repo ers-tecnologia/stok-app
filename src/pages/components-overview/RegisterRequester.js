@@ -1,23 +1,42 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { TextField, Button, Grid, Paper } from '@mui/material';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 
 const RegisterRequester = () => {
+  const { id: itemId } = useParams();
   const [id, setId] = useState('');
   const [nome, setNome] = useState('');
-
-
   const navigate = useNavigate();
 
+  useEffect(() => {
+    if (itemId) {
+      const fetchData = async () => {
+        try {
+          const response = await fetch(`http://localhost:3000/api/solicitante/${itemId}`);
+          const data = await response.json();
+          setId(data.id);
+          setNome(data.nome);
+        } catch (error) {
+          console.error("Error fetching data: ", error);
+        }
+      };
+  
+      fetchData();
+    }
+  }, [itemId]);
+
   const handleSave = async () => {
-    const response = await fetch('http://localhost:3000/api/solicitante', {
-      method: 'POST',
+    const method = itemId ? 'PUT' : 'POST';
+    const url = itemId ? `http://localhost:3000/api/solicitante/${itemId}` : 'http://localhost:3000/api/solicitante';
+  
+    const response = await fetch(url, {
+      method,
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({ nome }),
     });
-
+  
     if (response.ok) {
       navigate('/lista-solicitante');
     } else {

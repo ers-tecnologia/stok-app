@@ -1,11 +1,11 @@
 import { Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
 const UserList = () => {
-
+  const navigate = useNavigate()
   const [usuario, setUsuario] = useState([]);
 
 
@@ -49,7 +49,6 @@ const UserList = () => {
             <TableCell align="left">Nome</TableCell>
             <TableCell align="left">Email</TableCell>
             <TableCell align="left">Senha</TableCell>
-            <TableCell align="left">Perfil</TableCell>
             <TableCell align="center">Ações</TableCell>
           </TableRow>
         </TableHead>
@@ -62,9 +61,8 @@ const UserList = () => {
               <TableCell align="left">{item.nome}</TableCell>
               <TableCell align="left">{item.email}</TableCell>
               <TableCell align="left">{item.senha}</TableCell>
-              <TableCell align="left">{item.perfil}</TableCell>
               <TableCell align="center">
-                <Button color="primary" onClick={() => history.push(`/cadastro-estoque/${item.id}`)}>
+                <Button color="primary" onClick={() => navigate(`/cadastro-usuario/${item.id}`)}>
                   <EditIcon />
                 </Button>
                 <Button color="secondary" onClick={() => deleteItem(item.id)}>

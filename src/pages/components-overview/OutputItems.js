@@ -1,24 +1,30 @@
 import React, { useEffect, useState } from 'react';
 import { TextField, Button, FormControl, Select, MenuItem, InputLabel, Grid, Paper, Typography } from '@mui/material';
-import { useNavigate } from '../../../node_modules/react-router-dom/dist/index';
+import { Link, useNavigate, useParams } from '../../../node_modules/react-router-dom/dist/index';
 
 const OutputItems = () => {
   const navigate = useNavigate();
+  const { id: itemId } = useParams();
+  const [id, setId] = useState('');
   const [produtoId, setProdutoId] = useState([]);
-  const [quantidade, setQuantidade] = useState();
+  const [quantidade, setQuantidade] = useState('');
   const [data, setData] = useState();
   const [estoqueId, setEstoqueId] = useState([]);
   const [estoques, setEstoques] = useState([]);
   const [usuarioId, setUsuarioId] = useState([]);
+  const [usuarios, setUsuarios] = useState([]);
   const [solicitanteId, setSolicitanteId] = useState([]);
   const [solicitantes, setSolicitantes] = useState([]);
   const [gerarRecibo, setGerarRecibo] = useState(false);
   const [destinationStock, setDestinationStock] = useState('');
-  const [tipoSaida, setTipoSaida] = useState();
+  const [tipoSaida, setTipoSaida] = useState('');
 
   const handleSave = async () => {
-    const response = await fetch('http://localhost:3000/api/saida-item/', {
-      method: 'POST',
+    const method = itemId ? 'PUT' : 'POST';
+    const url = itemId ? `http://localhost:3000/api/saida-item/${itemId}` : 'http://localhost:3000/api/saida-item';
+
+    const response = await fetch(url, {
+      method,
       headers: {
         'Content-Type': 'application/json'
       },
@@ -26,7 +32,7 @@ const OutputItems = () => {
     });
 
     if (response.ok) {
-      navigate('/dashboard/default');
+      navigate('/lista-saida-itens');
     } else {
       console.log('ERRO');
     }
@@ -44,7 +50,6 @@ const OutputItems = () => {
           response = await fetch(`http://localhost:3000/api/saida-item/descricao/${produtoId}`);
           data = await response.json();
         }
-        console.log(data);
       } catch (error) {
         console.error('Erro ao buscar produto:', error);
       }
@@ -55,9 +60,37 @@ const OutputItems = () => {
     setSolicitanteId(event.target.value);
   };
 
+  const handleUsuarioChange = (event) => {
+    setUsuarioId(event.target.value);
+  };
+
   const handleEstoqueChange = (event) => {
     setEstoqueId(event.target.value);
   };
+
+  useEffect(() => {
+    if (itemId) {
+      const fetchData = async () => {
+        try {
+          const response = await fetch(`http://localhost:3000/api/saida-item/${itemId}`);
+          const data = await response.json();
+          setId(data.id);
+          setProdutoId(data.produtoId);
+          setQuantidade(data.quantidade);
+          setData(data.dataEntrada);
+          setEstoqueId(data.estoqueId);
+          setUsuarioId(data.usuarioId);
+          setSolicitanteId(data.solicitanteId);
+          setGerarRecibo(data.gerarRecibo);
+          setTipoSaida(data.tipoSaida);
+        } catch (error) {
+          console.error('Error fetching data: ', error);
+        }
+      };
+
+      fetchData();
+    }
+  }, [itemId]);
 
   useEffect(() => {
     const fetchEstoque = async () => {
@@ -79,13 +112,26 @@ const OutputItems = () => {
     fetchSolicitante();
   }, []);
 
+  useEffect(() => {
+    const fetchUsuario = async () => {
+      const response = await fetch('http://localhost:3000/api/usuario');
+      const data = await response.json();
+      setUsuarios(data);
+    };
+
+    fetchUsuario();
+  }, []);
+
   return (
     <Paper elevation={3} style={{ padding: 20, margin: 'auto' }}>
       <Typography variant="h6" gutterBottom>
         Saída de Itens
       </Typography>
       <Grid container spacing={2}>
-        <Grid item xs={12}>
+        <Grid item xs={1}>
+          <TextField label="ID" type="number" disabled fullWidth value={id} onChange={(e) => setId(e.target.value)} />
+        </Grid>
+        <Grid item xs={11}>
           <TextField
             sx={{ width: '100%' }}
             type="text"
@@ -119,18 +165,21 @@ const OutputItems = () => {
           </FormControl>
         </Grid>
         <Grid item xs={3}>
-          <TextField
-            sx={{ width: '100%' }}
-            type="number"
-            label="Usuário"
-            value={usuarioId}
-            onChange={(e) => setUsuarioId(e.target.value)}
-          />
+          <FormControl sx={{ width: '100%' }}>
+            <InputLabel id="solicitants-label">Usuário</InputLabel>
+            <Select labelId="solicitants-label"  value={usuarioId} onChange={handleUsuarioChange}>
+              {usuarios.map((usuario) => (
+                <MenuItem key={usuario.id} value={usuario.id}>
+                  {usuario.nome}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
         </Grid>
         <Grid item xs={3}>
           <FormControl sx={{ width: '100%' }}>
             <InputLabel id="solicitants-label">Solicitante</InputLabel>
-            <Select labelId="solicitants-label" multiple value={solicitanteId} onChange={handleSolicitanteChange}>
+            <Select labelId="solicitants-label"  value={solicitanteId} onChange={handleSolicitanteChange}>
               {solicitantes.map((solicitante) => (
                 <MenuItem key={solicitante.id} value={solicitante.id}>
                   {solicitante.nome}
@@ -152,8 +201,8 @@ const OutputItems = () => {
           <FormControl sx={{ width: '100%' }}>
             <InputLabel id="output-type-label">Tipo de Saída</InputLabel>
             <Select labelId="output-type-label" value={tipoSaida} onChange={(e) => setTipoSaida(e.target.value)}>
-              <MenuItem value="product">Saída de Produtos</MenuItem>
-              <MenuItem value="transfer">Transferência entre Estoques</MenuItem>
+              <MenuItem value="Produto">Saída de Produtos</MenuItem>
+              <MenuItem value="Transferência">Transferência entre Estoques</MenuItem>
             </Select>
           </FormControl>
         </Grid>
@@ -173,6 +222,11 @@ const OutputItems = () => {
             <Grid item xs={1}>
               <Button variant="contained" color="success" fullWidth onClick={handleSave}>
                 Salvar
+              </Button>
+            </Grid>
+            <Grid item xs={1}>
+              <Button variant="contained" component={Link} to="/lista-saida-itens" color="primary" fullWidth>
+                Voltar
               </Button>
             </Grid>
           </Grid>

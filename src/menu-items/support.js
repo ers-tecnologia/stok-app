@@ -20,14 +20,14 @@ const support = {
       id: 'sample-page',
       title: 'Entrada de Itens',
       type: 'item',
-      url: '/entrada-itens',
+      url: '/lista-entrada-itens',
       icon: icons.EditOutlined
     },
     {
       id: 'saida',
       title: 'Saída de Itens',
       type: 'item',
-      url: '/saida-itens',
+      url: '/lista-saida-itens',
       icon: icons.RedoOutlined
     },
     {

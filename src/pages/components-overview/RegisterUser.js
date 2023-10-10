@@ -1,37 +1,59 @@
-import React, { useState } from 'react';
-import { TextField, Button, Grid, FormControl, Paper, MenuItem, InputLabel, Select } from '@mui/material';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { TextField, Button, Grid, Paper } from '@mui/material';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 
 const RegisterUser = () => {
   const navigate = useNavigate();
-  const [nome, setNome] = useState();
-  const [email, setEmail] = useState();
-  const [senha, setSenha] = useState();
-  const [perfil, setPerfil] = useState();
+  const { id: itemId } = useParams();
+  const [id, setId] = useState('');
+  const [nome, setNome] = useState('');
+  const [email, setEmail] = useState('');
+  const [senha, setSenha] = useState('');
 
-  const handleEstadoChange = (event) => {
-    setPerfil(event.target.value);
-  };
+  useEffect(() => {
+    if (itemId) {
+      const fetchData = async () => {
+        try {
+          const response = await fetch(`http://localhost:3000/api/usuario/${itemId}`);
+          const data = await response.json();
+          setId(data.id);
+          setNome(data.nome);
+          setEmail(data.email);
+          setSenha(data.senha);
+        } catch (error) {
+          console.error('Error fetching data: ', error);
+        }
+      };
+
+      fetchData();
+    }
+  }, [itemId]);
 
   const handleSave = async () => {
-    const response = await fetch('http://localhost:3000/api/usuario', {
-      method: 'POST',
+    const method = itemId ? 'PUT' : 'POST';
+    const url = itemId ? `http://localhost:3000/api/usuario/${itemId}` : 'http://localhost:3000/api/usuario';
+
+    const response = await fetch(url, {
+      method,
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ nome, email, senha, perfil })
+      body: JSON.stringify({ nome, email, senha })
     });
 
     if (response.ok) {
       navigate('/lista-usuario');
     } else {
-      console.log("ERRO");
+      console.log('ERRO');
     }
   };
 
   return (
     <Paper elevation={3} style={{ padding: 20, margin: 'auto' }}>
       <Grid container spacing={2}>
+        <Grid item xs={1}>
+          <TextField label="ID" type="number" disabled fullWidth value={id} onChange={(e) => setId(e.target.value)} />
+        </Grid>
         <Grid item xs={4}>
           <TextField label="Nome" fullWidth value={nome} onChange={(e) => setNome(e.target.value)} />
         </Grid>
@@ -40,14 +62,6 @@ const RegisterUser = () => {
         </Grid>
         <Grid item xs={2}>
           <TextField label="Senha" type="password" fullWidth value={senha} onChange={(e) => setSenha(e.target.value)} />
-        </Grid>
-        <Grid item xs={3}>
-          <FormControl fullWidth>
-            <InputLabel>Perfil</InputLabel>
-            <Select value={perfil} onChange={handleEstadoChange}>
-              <MenuItem value={perfil} onChange={(e) => setPerfil(e.target.value)} />
-            </Select>
-          </FormControl>
         </Grid>
         <Grid item xs={12}>
           <Grid container spacing={1}>

@@ -1,39 +1,37 @@
 import { Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
 const RequesterList = () => {
-
+  const navigate = useNavigate();
   const [solicitante, setSolicitante] = useState([]);
-
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("http://localhost:3000/api/solicitante");
+        const response = await fetch('http://localhost:3000/api/solicitante');
         const data = await response.json();
         setSolicitante(data);
       } catch (error) {
-        console.error("Error fetching data: ", error);
+        console.error('Error fetching data: ', error);
       }
     };
 
     fetchData();
- }, []);
+  }, []);
 
- const deleteItem = async (id) => {
-  try {
-    await fetch(`http://localhost:3000/api/solicitante/${id}`, { method: 'DELETE' });
-    const response = await fetch("http://localhost:3000/api/solicitante");
-    const data = await response.json();
-    setSolicitante(data);
-  } catch (error) {
-    console.error("Error deleting item: ", error);
-  }
-};
- 
+  const deleteItem = async (id) => {
+    try {
+      await fetch(`http://localhost:3000/api/solicitante/${id}`, { method: 'DELETE' });
+      const response = await fetch('http://localhost:3000/api/solicitante');
+      const data = await response.json();
+      setSolicitante(data);
+    } catch (error) {
+      console.error('Error deleting item: ', error);
+    }
+  };
 
   return (
     <TableContainer component={Paper}>
@@ -56,7 +54,7 @@ const RequesterList = () => {
               </TableCell>
               <TableCell align="left">{item.nome}</TableCell>
               <TableCell align="center">
-                <Button color="primary" onClick={() => history.push(`/cadastro-estoque/${item.id}`)}>
+                <Button color="primary" onClick={() => navigate(`/cadastro-solicitante/${item.id}`)}>
                   <EditIcon />
                 </Button>
                 <Button color="secondary" onClick={() => deleteItem(item.id)}>
