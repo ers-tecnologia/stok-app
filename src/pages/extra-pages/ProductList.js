@@ -12,6 +12,7 @@ const ProductList = () => {
       try {
         const response = await fetch('http://localhost:3000/api/produto');
         const data = await response.json();
+        console.log(data);
         setProduto(data);
       } catch (error) {
         console.error('Error fetching data: ', error);
@@ -58,7 +59,7 @@ const ProductList = () => {
               </TableCell>
               <TableCell align="left">{item.patrimonio}</TableCell>
               <TableCell align="left">{item.descricao}</TableCell>
-              <TableCell align="left">{item.categoria}</TableCell>
+              <TableCell align="left">{item.categoriaId}</TableCell>
               <TableCell align="left">{item.estado}</TableCell>
               <TableCell align="left">{item.estoqueMaximo}</TableCell>
               <TableCell align="left">{item.estoqueMinimo}</TableCell>

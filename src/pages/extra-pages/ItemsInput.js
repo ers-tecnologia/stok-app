@@ -1,18 +1,25 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { TextField, Select, MenuItem, Button, Grid, Paper, Typography, FormControl, InputLabel } from '@mui/material';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
 const schema = yup.object().shape({
-  search: yup.string().required('Campo obrigatório'),
-  quantity: yup.number().required('Campo obrigatório'),
-  date: yup.date().required('Campo obrigatório'),
-  stock: yup.string().required('Campo obrigatório'),
-  user: yup.string().required('Campo obrigatório')
+  quantidade: yup.number().required('Campo obrigatório'),
+  dataEntrada: yup.date().required('Campo obrigatório'),
+  estoqueId: yup.array().required('Campo obrigatório'),
+  preco: yup.number().required('Campo obrigatório')
 });
 
 const ItemsInput = () => {
+  const [produtoId, setProdutoId] = useState([]);
+  const [produtosId, setProdutosId] = useState([]);
+  const [quantidade, setQuantidade] = useState();
+  const [preco, setPreco] = useState();
+  const [estoqueId, setEstoqueId] = useState([]);
+  const [estoques, setEstoques] = useState([]);
+  const [dataEntrada, setData] = useState();
+
   const {
     register,
     handleSubmit,
@@ -21,66 +28,114 @@ const ItemsInput = () => {
     resolver: yupResolver(schema)
   });
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const handleProdutoIdChange = (e) => {
+    setProdutoId(e.target.value);
   };
 
-  const [originStock, setOriginStock] = useState('');
+  const handleEstoqueChange = (event) => {
+    setEstoqueId(event.target.value);
+  };
+
+  const onSubmit = async () => {
+    const response = await fetch('http://localhost:3000/api/entrada-item', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ produtoId, quantidade, preco, dataEntrada, estoqueId })
+    });
+    if (response.ok) {
+      console.log("sucesso");
+    } else {
+      console.log('ERRO');
+    }
+  };
+
+  useEffect(() => {
+    const fetchProduto = async () => {
+      const response = await fetch('http://localhost:3000/api/produto');
+      const data = await response.json();
+      setProdutosId(data);
+    };
+
+    fetchProduto();
+  }, []);
+  useEffect(() => {
+    const fetchEstoque = async () => {
+      const response = await fetch('http://localhost:3000/api/estoque');
+      const data = await response.json();
+      setEstoques(data);
+    };
+
+    fetchEstoque();
+  }, []);
 
   return (
     <Paper elevation={3} style={{ padding: 20, margin: 'auto' }}>
       <Typography variant="h6" gutterBottom>
         Entrada de Itens
       </Typography>
-      <Grid container spacing={2} component="form" onSubmit={handleSubmit(onSubmit)}>
+      <Grid container spacing={2} component="form" onSubmit={handleSubmit}>
         <Grid item xs={12}>
-          <TextField
-            sx={{ width: '100%' }}
-            {...register('search')}
-            error={!!errors.search}
-            helperText={errors.search?.message}
-            label="Buscar produto"
-          />
+          <FormControl fullWidth>
+            <InputLabel id="produtoId-label">Buscar por Produtos</InputLabel>
+            <Select labelId="produtoId-label"  value={produtoId} onChange={handleProdutoIdChange}>
+              {produtosId.map((produto) => (
+                <MenuItem key={produto.id} value={produto.id}>
+                  {produto.descricao}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
         </Grid>
         <Grid item xs={2}>
           <TextField
             sx={{ width: '100%' }}
-            {...register('quantity')}
-            error={!!errors.quantity}
+            {...register('quantidade')}
+            error={!!errors.quantidade}
             helperText={errors.quantity?.message}
             label="Quantidade"
             type="number"
+            value={quantidade}
+            onChange={(e) => setQuantidade(e.target.value)}
           />
         </Grid>
         <Grid item xs={2}>
           <TextField
             sx={{ width: '100%' }}
-            {...register('quantity')}
-            error={!!errors.quantity}
-            helperText={errors.quantity?.message}
+            {...register('preco')}
+            error={!!errors.preco}
+            helperText={errors.preco?.message}
             label="Preço"
             type="float"
+            value={preco}
+            onChange={(e) => setPreco(e.target.value)}
           />
         </Grid>
         <Grid item xs={3}>
           <TextField
             sx={{ width: '100%' }}
-            {...register('date')}
-            error={!!errors.date}
-            helperText={errors.date?.message}
+            {...register('dataEntrada')}
+            error={!!errors.dataEntrada}
+            helperText={errors.dataEntrada?.message}
             label="Data de entrada"
             type="date"
             InputLabelProps={{
               shrink: true
             }}
+            value={dataEntrada}
+            onChange={(e) => setData(e.target.value)}
           />
         </Grid>
         <Grid item xs={3}>
           <FormControl sx={{ width: '100%' }}>
             <InputLabel id="origin-stock-label">Estoque de Origem</InputLabel>
-            <Select labelId="origin-stock-label" value={originStock} onChange={(e) => setOriginStock(e.target.value)}>
-              <MenuItem value="Stock 1">Stock 1</MenuItem>
-              <MenuItem value="Stock 2">Stock 2</MenuItem>
+            <Select labelId="origin-stock-label" value={estoqueId} onChange={handleEstoqueChange}>
+              {estoques.map((estoque) => (
+                <MenuItem key={estoque.id} value={estoque.id}>
+                  {estoque.descricao}
+                </MenuItem>
+              ))}
             </Select>
           </FormControl>
         </Grid>
@@ -94,14 +149,10 @@ const ItemsInput = () => {
             defaultValue="Usuário Logado"
           />
         </Grid>
+
         <Grid item xs={1}>
-          <Button variant="contained" color="success" fullWidth>
+          <Button variant="contained" onClick={onSubmit} color="success" fullWidth>
             Salvar
-          </Button>
-        </Grid>
-        <Grid item xs={1}>
-          <Button variant="contained" color="primary" fullWidth>
-            Voltar
           </Button>
         </Grid>
       </Grid>

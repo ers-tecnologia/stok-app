@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { TextField, Button, Grid, Paper, FormControl, InputLabel, Select, MenuItem, Typography } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
@@ -11,12 +11,13 @@ const RegisterProduct = () => {
   const [estoqueMinimo, setEstoqueMinimo] = useState();
   const [estoqueMaximo, setEstiqueMaximo] = useState();
   const [pedido, setPedido] = useState();
-  const [categoria, setCategoria] = React.useState('');
+  const [categoriaId, setCategoriaId] = React.useState('');
+  const [categorias, setCategorias] = useState([]);
   const [estado, setEstado] = React.useState('');
   const [selectedFile, setSelectedFile] = React.useState(null);
 
   const handleCategoriaChange = (event) => {
-    setCategoria(event.target.value);
+    setCategoriaId(event.target.value);
   };
 
   const handleEstadoChange = (event) => {
@@ -28,13 +29,23 @@ const RegisterProduct = () => {
     setSelectedFile(file);
   };
 
+  useEffect(() => {
+    const fetchCategorias = async () => {
+      const response = await fetch('http://localhost:3000/api/categoria');
+      const data = await response.json();
+      setCategorias(data);
+    };
+
+    fetchCategorias();
+  }, []);
+
   const handleSave = async () => {
     const response = await fetch('http://localhost:3000/api/produto', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ patrimonio, descricao, categoria, estado, estoqueMinimo, estoqueMaximo })
+      body: JSON.stringify({ patrimonio, descricao, categoriaId, estado, estoqueMinimo, estoqueMaximo })
     });
 
     if (response.ok) {
@@ -57,14 +68,14 @@ const RegisterProduct = () => {
           <TextField label="Descrição" fullWidth value={descricao} onChange={(e) => setDescricao(e.target.value)} />
         </Grid>
         <Grid item xs={3}>
-          <FormControl fullWidth>
-            <InputLabel>Categoria</InputLabel>
-            <Select value={categoria} onChange={handleCategoriaChange}>
-              <MenuItem value={10}>Categoria 1</MenuItem>
-              <MenuItem value={20}>Categoria 2</MenuItem>
-              <MenuItem value={30}>Categoria 3</MenuItem>
-            </Select>
-          </FormControl>
+            <FormControl fullWidth>
+      <InputLabel>Categoria</InputLabel>
+      <Select value={categoriaId} onChange={handleCategoriaChange}>
+        {categorias.map((categoria) => (
+          <MenuItem key={categoria.id} value={categoria.id}>{categoria.descricao}</MenuItem>
+        ))}
+      </Select>
+    </FormControl>
         </Grid>
         <Grid item xs={3}>
           <FormControl fullWidth>
