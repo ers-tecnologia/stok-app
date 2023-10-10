@@ -34,7 +34,7 @@ const support = {
       id: 'documentation',
       title: 'Devolução de Itens',
       type: 'item',
-      url: '/devolucao-itens',
+      url: '/lista-devolucao-itens',
       icon: icons.AlignCenterOutlined
     },
     {

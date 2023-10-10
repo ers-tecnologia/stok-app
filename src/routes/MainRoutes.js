@@ -5,6 +5,7 @@ import Loadable from 'components/Loadable';
 import MainLayout from 'layout/MainLayout';
 import ItemsInputList from 'pages/extra-pages/ItemsInputList';
 import OutputItemsList from 'pages/extra-pages/OutputItemsList';
+import ReturnItensList from 'pages/extra-pages/ReturnItensList';
 
 // render - dashboard
 const DashboardDefault = Loadable(lazy(() => import('pages/dashboard')));
@@ -146,8 +147,18 @@ const MainRoutes = {
       path: 'saida-itens/:id',
       element: <OutputItems />
     },
+
+    //devolução
+    {
+      path: 'lista-devolucao-itens',
+      element: <ReturnItensList />
+    },
     {
       path: 'devolucao-itens',
+      element: <ReturnItens />
+    },
+    {
+      path: 'devolucao-itens/:id',
       element: <ReturnItens />
     },
     {

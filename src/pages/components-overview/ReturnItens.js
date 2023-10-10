@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { TextField, Button, Grid, FormControl, InputLabel, Select, MenuItem, Paper } from '@mui/material';
-import { useNavigate } from '../../../node_modules/react-router-dom/dist/index';
+import { Link, useNavigate, useParams } from '../../../node_modules/react-router-dom/dist/index';
 
 const ReturnItems = () => {
   const navigate = useNavigate();
+  const { id: itemId } = useParams();
+  const [id, setId] = useState('');
   const [produtoId, setProdutoId] = useState([]);
-  const [quantidade, setQuantidade] = useState();
+  const [quantidade, setQuantidade] = useState('');
   const [dataEntrada, setDataEntrada] = useState();
   const [estoqueId, setEstoqueId] = useState([]);
   const [estoques, setEstoques] = useState([]);
@@ -40,8 +42,11 @@ const ReturnItems = () => {
   };
 
   const handleSave = async () => {
-    const response = await fetch('http://localhost:3000/api/devolucao-item/', {
-      method: 'POST',
+    const method = itemId ? 'PUT' : 'POST';
+    const url = itemId ? `http://localhost:3000/api/devolucao-item/${itemId}` : 'http://localhost:3000/api/devolucao-item';
+
+    const response = await fetch(url, {
+      method,
       headers: {
         'Content-Type': 'application/json'
       },
@@ -49,11 +54,32 @@ const ReturnItems = () => {
     });
 
     if (response.ok) {
-      navigate('/dashboard/default');
+      navigate('/lista-devolucao-itens');
     } else {
       console.log('ERRO');
     }
   };
+
+  useEffect(() => {
+    if (itemId) {
+      const fetchData = async () => {
+        try {
+          const response = await fetch(`http://localhost:3000/api/devolucao-item/${itemId}`);
+          const data = await response.json();
+          setId(data.id);
+          setProdutoId(data.produtoId);
+          setQuantidade(data.quantidade);
+          setData(data.dataEntrada);
+          setEstoqueId(data.estoqueId);
+          setSolicitanteId(data.solicitanteId);
+        } catch (error) {
+          console.error('Error fetching data: ', error);
+        }
+      };
+
+      fetchData();
+    }
+  }, [itemId]);
 
   useEffect(() => {
     const fetchEstoque = async () => {
@@ -78,7 +104,10 @@ const ReturnItems = () => {
   return (
     <Paper elevation={3} style={{ padding: 20, margin: 'auto' }}>
       <Grid container spacing={2}>
-        <Grid item xs={12}>
+        <Grid item xs={1}>
+          <TextField label="ID" type="number" disabled fullWidth value={id} onChange={(e) => setId(e.target.value)} />
+        </Grid>
+        <Grid item xs={11}>
           <TextField
             label="Busca do Produto"
             placeholder="ID, nome ou categoria"
@@ -140,7 +169,12 @@ const ReturnItems = () => {
                 Salvar
               </Button>
             </Grid>
-          </Grid>{' '}
+            <Grid item xs={1}>
+              <Button variant="contained" component={Link} to="/lista-devolucao-itens" color="primary" fullWidth>
+                Voltar
+              </Button>
+            </Grid>
+          </Grid>
         </Grid>
       </Grid>
     </Paper>
