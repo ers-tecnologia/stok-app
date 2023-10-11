@@ -7,6 +7,7 @@ const ReturnItems = () => {
   const { id: itemId } = useParams();
   const [id, setId] = useState('');
   const [produtoId, setProdutoId] = useState([]);
+  const [produtosId, setProdutosId] = useState([]);
   const [quantidade, setQuantidade] = useState('');
   const [dataEntrada, setDataEntrada] = useState();
   const [estoqueId, setEstoqueId] = useState([]);
@@ -22,7 +23,7 @@ const ReturnItems = () => {
     setSolicitanteId(event.target.value);
   };
 
-  const handleSearchChange = async (event) => {
+  const handleProdutoIdChange = async (event) => {
     setProdutoId(event.target.value);
 
     if (produtoId) {
@@ -59,6 +60,16 @@ const ReturnItems = () => {
       console.log('ERRO');
     }
   };
+
+  useEffect(() => {
+    const fetchProduto = async () => {
+      const response = await fetch('http://localhost:3000/api/produto');
+      const data = await response.json();
+      setProdutosId(data);
+    };
+
+    fetchProduto();
+  }, []);
 
   useEffect(() => {
     if (itemId) {
@@ -108,13 +119,16 @@ const ReturnItems = () => {
           <TextField label="ID" type="number" disabled fullWidth value={id} onChange={(e) => setId(e.target.value)} />
         </Grid>
         <Grid item xs={11}>
-          <TextField
-            label="Busca do Produto"
-            placeholder="ID, nome ou categoria"
-            sx={{ width: '100%' }}
-            value={produtoId}
-            onChange={handleSearchChange}
-          />
+        <FormControl fullWidth>
+            <InputLabel id="produtoId-label">Buscar por Produtos</InputLabel>
+            <Select labelId="produtoId-label" value={produtoId} onChange={handleProdutoIdChange}>
+              {produtosId.map((produto) => (
+                <MenuItem key={produto.id} value={produto.id}>
+                  {produto.descricao}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
         </Grid>
         <Grid item xs={3}>
           <TextField

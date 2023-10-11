@@ -7,6 +7,7 @@ const OutputItems = () => {
   const { id: itemId } = useParams();
   const [id, setId] = useState('');
   const [produtoId, setProdutoId] = useState([]);
+  const [produtosId, setProdutosId] = useState([]);
   const [quantidade, setQuantidade] = useState('');
   const [data, setData] = useState();
   const [estoqueId, setEstoqueId] = useState([]);
@@ -38,7 +39,7 @@ const OutputItems = () => {
     }
   };
 
-  const handleSearchChange = async (event) => {
+  const handleProdutoIdChange = async (event) => {
     setProdutoId(event.target.value);
 
     if (produtoId) {
@@ -93,6 +94,16 @@ const OutputItems = () => {
   }, [itemId]);
 
   useEffect(() => {
+    const fetchProduto = async () => {
+      const response = await fetch('http://localhost:3000/api/produto');
+      const data = await response.json();
+      setProdutosId(data);
+    };
+
+    fetchProduto();
+  }, []);
+
+  useEffect(() => {
     const fetchEstoque = async () => {
       const response = await fetch('http://localhost:3000/api/estoque');
       const data = await response.json();
@@ -132,13 +143,16 @@ const OutputItems = () => {
           <TextField label="ID" type="number" disabled fullWidth value={id} onChange={(e) => setId(e.target.value)} />
         </Grid>
         <Grid item xs={11}>
-          <TextField
-            sx={{ width: '100%' }}
-            type="text"
-            label="Pesquise por ID ou Descrição"
-            value={produtoId}
-            onChange={handleSearchChange}
-          />
+          <FormControl fullWidth>
+            <InputLabel id="produtoId-label">Buscar por Produtos</InputLabel>
+            <Select labelId="produtoId-label" value={produtoId} onChange={handleProdutoIdChange}>
+              {produtosId.map((produto) => (
+                <MenuItem key={produto.id} value={produto.id}>
+                  {produto.descricao}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
         </Grid>
         <Grid item xs={3}>
           <TextField
@@ -167,7 +181,7 @@ const OutputItems = () => {
         <Grid item xs={3}>
           <FormControl sx={{ width: '100%' }}>
             <InputLabel id="solicitants-label">Usuário</InputLabel>
-            <Select labelId="solicitants-label"  value={usuarioId} onChange={handleUsuarioChange}>
+            <Select labelId="solicitants-label" value={usuarioId} onChange={handleUsuarioChange}>
               {usuarios.map((usuario) => (
                 <MenuItem key={usuario.id} value={usuario.id}>
                   {usuario.nome}
@@ -179,7 +193,7 @@ const OutputItems = () => {
         <Grid item xs={3}>
           <FormControl sx={{ width: '100%' }}>
             <InputLabel id="solicitants-label">Solicitante</InputLabel>
-            <Select labelId="solicitants-label"  value={solicitanteId} onChange={handleSolicitanteChange}>
+            <Select labelId="solicitants-label" value={solicitanteId} onChange={handleSolicitanteChange}>
               {solicitantes.map((solicitante) => (
                 <MenuItem key={solicitante.id} value={solicitante.id}>
                   {solicitante.nome}

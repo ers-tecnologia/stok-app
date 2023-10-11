@@ -42,7 +42,7 @@ const ReturnItensList = () => {
         <TableHead>
           <TableRow>
             <TableCell>ID</TableCell>
-            <TableCell align="left">ID de Produto</TableCell>
+            <TableCell align="left">Descrição de Produto</TableCell>
             <TableCell align="left">Quantidade</TableCell>
             <TableCell align="left">Data de Entrada</TableCell>
             <TableCell align="left">ID de Solicitante</TableCell>
@@ -56,9 +56,9 @@ const ReturnItensList = () => {
               <TableCell component="th" scope="row">
                 {item.id}
               </TableCell>
-              <TableCell align="left">{item.produtoId}</TableCell>
+              <TableCell align="left">{item.produto.descricao}</TableCell>
               <TableCell align="left">{item.quantidade}</TableCell>
-              <TableCell align="left">{item.dataEntrada}</TableCell>
+              <TableCell align="left">{new Date(item.dataEntrada).toLocaleDateString('pt-BR')}</TableCell>
               <TableCell align="left">{item.solicitanteId}</TableCell>
               <TableCell align="left">{item.estoqueId}</TableCell>
               <TableCell align="center">
