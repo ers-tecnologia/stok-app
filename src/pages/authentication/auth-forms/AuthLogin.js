@@ -1,24 +1,41 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
-// material-ui
 import { Button, FormHelperText, Grid, IconButton, InputAdornment, InputLabel, OutlinedInput, Stack } from '@mui/material';
-
-// third party
 import * as Yup from 'yup';
 import { Formik } from 'formik';
-
-// project import
 import AnimateButton from 'components/@extended/AnimateButton';
-
-// assets
 import { EyeOutlined, EyeInvisibleOutlined } from '@ant-design/icons';
 
-// ============================|| FIREBASE - LOGIN ||============================ //
+const handleLogin = async (values) => {
+  try {
+    const response = await fetch('http://localhost:3001/api/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        email: values.email,
+        senha: values.password
+      })
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      localStorage.setItem('token', data.token); // Armazena o token no localStorage
+      return { success: true };
+    } else {
+      const data = await response.json();
+      throw new Error(data.message || 'Falha ao fazer login. Verifique suas credenciais.');
+    }
+  } catch (err) {
+    throw new Error('Ocorreu um erro ao fazer login. Tente novamente mais tarde.');
+  }
+};
 
 const AuthLogin = () => {
   const navigate = useNavigate();
-  const [showPassword, setShowPassword] = React.useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
   };
@@ -31,22 +48,25 @@ const AuthLogin = () => {
     <>
       <Formik
         initialValues={{
-          email: 'contato@directcontrol.com.br',
-          password: '123456',
+          email: null,
+          password: null,
           submit: null
         }}
         validationSchema={Yup.object().shape({
           email: Yup.string().email('Deve ser um e-mail válido').max(255).required('O e-mail é obrigatório'),
-          password: Yup.string().max(255).required('Senha é obrigatoria')
+          password: Yup.string().max(255).required('A senha é obrigatória')
         })}
         onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
           try {
+            const loginStatus = await handleLogin(values);
+            if (loginStatus.success) {
+              setStatus({ success: true });
+              setSubmitting(false);
+              navigate('/dashboard/default');
+            }
+          } catch (error) {
             setStatus({ success: false });
-            setSubmitting(false);
-            navigate('/dashboard/default');
-          } catch (err) {
-            setStatus({ success: false });
-            setErrors({ submit: err.message });
+            setErrors({ submit: error.message });
             setSubmitting(false);
           }
         }}
@@ -64,7 +84,7 @@ const AuthLogin = () => {
                     name="email"
                     onBlur={handleBlur}
                     onChange={handleChange}
-                    placeholder="Digite seu endereco de e-mail"
+                    placeholder="Digite seu endereço de e-mail"
                     fullWidth
                     error={Boolean(touched.email && errors.email)}
                   />
@@ -81,7 +101,7 @@ const AuthLogin = () => {
                   <OutlinedInput
                     fullWidth
                     error={Boolean(touched.password && errors.password)}
-                    id="-password-login"
+                    id="password-login"
                     type={showPassword ? 'text' : 'password'}
                     value={values.password}
                     name="password"
