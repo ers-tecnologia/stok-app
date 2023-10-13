@@ -11,7 +11,7 @@ const ItemsInputList = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('http://localhost:3000/api/entrada-item');
+        const response = await fetch('http://localhost:3001/api/entrada-item');
         const data = await response.json();
         console.log(data);
         setItemsInput(data);
@@ -25,8 +25,8 @@ const ItemsInputList = () => {
 
   const deleteItem = async (id) => {
     try {
-      await fetch(`http://localhost:3000/api/entrada-item/${id}`, { method: 'DELETE' });
-      const response = await fetch('http://localhost:3000/api/entrada-item');
+      await fetch(`http://localhost:3001/api/entrada-item/${id}`, { method: 'DELETE' });
+      const response = await fetch('http://localhost:3001/api/entrada-item');
       const data = await response.json();
       setItemsInput(data);
     } catch (error) {

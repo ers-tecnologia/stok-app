@@ -11,7 +11,7 @@ const ReturnItensList = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('http://localhost:3000/api/devolucao-item');
+        const response = await fetch('http://localhost:3001/api/devolucao-item');
         const data = await response.json();
         setReturnItens(data);
       } catch (error) {
@@ -24,8 +24,8 @@ const ReturnItensList = () => {
 
   const deleteItem = async (id) => {
     try {
-      await fetch(`http://localhost:3000/api/devolucao-item/${id}`, { method: 'DELETE' });
-      const response = await fetch('http://localhost:3000/api/devolucao-item');
+      await fetch(`http://localhost:3001/api/devolucao-item/${id}`, { method: 'DELETE' });
+      const response = await fetch('http://localhost:3001/api/devolucao-item');
       const data = await response.json();
       setReturnItens(data);
     } catch (error) {

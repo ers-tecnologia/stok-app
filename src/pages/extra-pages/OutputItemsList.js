@@ -11,7 +11,7 @@ const OutputItemsList = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('http://localhost:3000/api/saida-item');
+        const response = await fetch('http://localhost:3001/api/saida-item');
         const data = await response.json();
         console.log(data);
         setOuputItems(data);
@@ -25,8 +25,8 @@ const OutputItemsList = () => {
 
   const deleteItem = async (id) => {
     try {
-      await fetch(`http://localhost:3000/api/saida-item/${id}`, { method: 'DELETE' });
-      const response = await fetch('http://localhost:3000/api/saida-item');
+      await fetch(`http://localhost:3001/api/saida-item/${id}`, { method: 'DELETE' });
+      const response = await fetch('http://localhost:3001/api/saida-item');
       const data = await response.json();
       setOuputItems(data);
     } catch (error) {
