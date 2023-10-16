@@ -6,41 +6,33 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from '../../../node_modules/react-router-dom/dist/index';
 
 const StockList = () => {
- const navigate =  useNavigate()
+  const navigate = useNavigate();
   const [estoque, setEstoques] = useState([]);
-
-
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("http://localhost:3001/api/estoque");
+        const response = await fetch('http://http://orion.vps-kinghost.net:3001/api/estoque');
         const data = await response.json();
         setEstoques(data);
       } catch (error) {
-        console.error("Error fetching data: ", error);
+        console.error('Error fetching data: ', error);
       }
     };
 
     fetchData();
- }, []);
+  }, []);
 
-
-
- const deleteItem = async (id) => {
-  try {
-    await fetch(`http://localhost:3001/api/estoque/${id}`, { method: 'DELETE' });
-    const response = await fetch("http://localhost:3001/api/estoque");
-    const data = await response.json();
-    setEstoques(data);
-  } catch (error) {
-    console.error("Error deleting item: ", error);
-  }
-};
-
-
-
-  
+  const deleteItem = async (id) => {
+    try {
+      await fetch(`http://http://orion.vps-kinghost.net:3001/api/estoque/${id}`, { method: 'DELETE' });
+      const response = await fetch('http://http://orion.vps-kinghost.net:3001/api/estoque');
+      const data = await response.json();
+      setEstoques(data);
+    } catch (error) {
+      console.error('Error deleting item: ', error);
+    }
+  };
 
   return (
     <TableContainer component={Paper}>

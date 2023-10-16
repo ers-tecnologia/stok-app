@@ -5,7 +5,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 
 const RegisterProduct = () => {
   const { id: itemId } = useParams();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [id, setId] = useState('');
   const [patrimonio, setPatrimonio] = useState('');
   const [descricao, setDescricao] = useState('');
@@ -34,7 +34,7 @@ const RegisterProduct = () => {
     if (itemId) {
       const fetchData = async () => {
         try {
-          const response = await fetch(`http://localhost:3001/api/produto/${itemId}`);
+          const response = await fetch(`http://http://orion.vps-kinghost.net:3001/api/produto/${itemId}`);
           const data = await response.json();
           setId(data.id);
           setDescricao(data.descricao);
@@ -44,17 +44,17 @@ const RegisterProduct = () => {
           setCategoriaId(data.categoriaId);
           setEstado(data.estado);
         } catch (error) {
-          console.error("Error fetching data: ", error);
+          console.error('Error fetching data: ', error);
         }
       };
-  
+
       fetchData();
     }
   }, [itemId]);
 
   useEffect(() => {
     const fetchCategorias = async () => {
-      const response = await fetch('http://localhost:3001/api/categoria');
+      const response = await fetch('http://http://orion.vps-kinghost.net:3001/api/categoria');
       const data = await response.json();
       setCategorias(data);
     };
@@ -64,20 +64,22 @@ const RegisterProduct = () => {
 
   const handleSave = async () => {
     const method = itemId ? 'PUT' : 'POST';
-    const url = itemId ? `http://localhost:3001/api/produto/${itemId}` : 'http://localhost:3001/api/produto';
-  
+    const url = itemId
+      ? `http://http://orion.vps-kinghost.net:3001/api/produto/${itemId}`
+      : 'http://http://orion.vps-kinghost.net:3001/api/produto';
+
     const response = await fetch(url, {
       method,
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json'
       },
-      body: JSON.stringify({patrimonio, descricao, categoriaId, estado, estoqueMinimo, estoqueMaximo,  }),
+      body: JSON.stringify({ patrimonio, descricao, categoriaId, estado, estoqueMinimo, estoqueMaximo })
     });
-  
+
     if (response.ok) {
       navigate('/lista-produto');
     } else {
-      console.log("ERRO");
+      console.log('ERRO');
     }
   };
 
@@ -94,14 +96,16 @@ const RegisterProduct = () => {
           <TextField label="Descrição" fullWidth value={descricao} onChange={(e) => setDescricao(e.target.value)} />
         </Grid>
         <Grid item xs={3}>
-            <FormControl fullWidth>
-      <InputLabel>Categoria</InputLabel>
-      <Select value={categoriaId} onChange={handleCategoriaChange}>
-        {categorias.map((categoria) => (
-          <MenuItem key={categoria.id} value={categoria.id}>{categoria.descricao}</MenuItem>
-        ))}
-      </Select>
-    </FormControl>
+          <FormControl fullWidth>
+            <InputLabel>Categoria</InputLabel>
+            <Select value={categoriaId} onChange={handleCategoriaChange}>
+              {categorias.map((categoria) => (
+                <MenuItem key={categoria.id} value={categoria.id}>
+                  {categoria.descricao}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
         </Grid>
         <Grid item xs={3}>
           <FormControl fullWidth>

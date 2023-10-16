@@ -5,37 +5,33 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
 const UserList = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [usuario, setUsuario] = useState([]);
-
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("http://localhost:3001/api/usuario");
+        const response = await fetch('http://http://orion.vps-kinghost.net:3001/api/usuario');
         const data = await response.json();
         setUsuario(data);
       } catch (error) {
-        console.error("Error fetching data: ", error);
+        console.error('Error fetching data: ', error);
       }
     };
 
     fetchData();
- }, []);
+  }, []);
 
- const deleteItem = async (id) => {
-  try {
-    await fetch(`http://localhost:3001/api/usuario/${id}`, { method: 'DELETE' });
-    const response = await fetch("http://localhost:3001/api/usuario");
-    const data = await response.json();
-    setUsuario(data);
-  } catch (error) {
-    console.error("Error deleting item: ", error);
-  }
-};
-
-
- 
+  const deleteItem = async (id) => {
+    try {
+      await fetch(`http://http://orion.vps-kinghost.net:3001/api/usuario/${id}`, { method: 'DELETE' });
+      const response = await fetch('http://http://orion.vps-kinghost.net:3001/api/usuario');
+      const data = await response.json();
+      setUsuario(data);
+    } catch (error) {
+      console.error('Error deleting item: ', error);
+    }
+  };
 
   return (
     <TableContainer component={Paper}>

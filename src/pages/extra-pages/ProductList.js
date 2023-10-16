@@ -5,13 +5,13 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
 const ProductList = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [produto, setProduto] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('http://localhost:3001/api/produto');
+        const response = await fetch('http://http://orion.vps-kinghost.net:3001/api/produto');
         const data = await response.json();
         console.log(data);
         setProduto(data);
@@ -25,8 +25,8 @@ const ProductList = () => {
 
   const deleteItem = async (id) => {
     try {
-      await fetch(`http://localhost:3001/api/produto/${id}`, { method: 'DELETE' });
-      const response = await fetch('http://localhost:3001/api/produto');
+      await fetch(`http://http://orion.vps-kinghost.net:3001/api/produto/${id}`, { method: 'DELETE' });
+      const response = await fetch('http://http://orion.vps-kinghost.net:3001/api/produto');
       const data = await response.json();
       setProduto(data);
     } catch (error) {
