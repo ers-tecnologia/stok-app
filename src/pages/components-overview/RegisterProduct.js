@@ -34,7 +34,7 @@ const RegisterProduct = () => {
     if (itemId) {
       const fetchData = async () => {
         try {
-          const response = await fetch(`http://http://orion.vps-kinghost.net:3001/api/produto/${itemId}`);
+          const response = await fetch(`http://orion.vps-kinghost.net:3001/api/produto/${itemId}`);
           const data = await response.json();
           setId(data.id);
           setDescricao(data.descricao);
@@ -54,7 +54,7 @@ const RegisterProduct = () => {
 
   useEffect(() => {
     const fetchCategorias = async () => {
-      const response = await fetch('http://http://orion.vps-kinghost.net:3001/api/categoria');
+      const response = await fetch('http://orion.vps-kinghost.net:3001/api/categoria');
       const data = await response.json();
       setCategorias(data);
     };
@@ -64,9 +64,7 @@ const RegisterProduct = () => {
 
   const handleSave = async () => {
     const method = itemId ? 'PUT' : 'POST';
-    const url = itemId
-      ? `http://http://orion.vps-kinghost.net:3001/api/produto/${itemId}`
-      : 'http://http://orion.vps-kinghost.net:3001/api/produto';
+    const url = itemId ? `http://orion.vps-kinghost.net:3001/api/produto/${itemId}` : 'http://orion.vps-kinghost.net:3001/api/produto';
 
     const response = await fetch(url, {
       method,
