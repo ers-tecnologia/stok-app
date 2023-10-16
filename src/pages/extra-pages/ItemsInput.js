@@ -32,6 +32,7 @@ const ItemsInput = () => {
     resolver: yupResolver(schema)
   });
 
+  
   const handleProdutoIdChange = (e) => {
     setProdutoId(e.target.value);
   };
@@ -51,7 +52,7 @@ const ItemsInput = () => {
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ produtoId, quantidade, preco, dataEntrada, estoqueId })
+      body: JSON.stringify({ produtoId, quantidade, preco: parseFloat(preco.replace(',', '.')), dataEntrada, estoqueId })
     });
 
     if (response.ok) {
@@ -141,7 +142,7 @@ const ItemsInput = () => {
             error={!!errors.preco}
             helperText={errors.preco?.message}
             label="Preço"
-            type="float"
+            type="text"
             value={preco}
             onChange={(e) => setPreco(e.target.value)}
           />
