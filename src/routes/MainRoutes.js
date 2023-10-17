@@ -11,6 +11,8 @@ import ItemsInputList from 'pages/extra-pages/ItemsInputList';
 import OutputItemsList from 'pages/extra-pages/OutputItemsList';
 import ReturnItensList from 'pages/extra-pages/ReturnItensList';
 
+import { PrivateRoutes } from './privateRoutes';
+
 // Páginas do Dashboard
 const DashboardDefault = Loadable(lazy(() => import('pages/dashboard')));
 
@@ -36,124 +38,240 @@ const AntIcons = Loadable(lazy(() => import('pages/components-overview/AntIcons'
 // Rotas principais
 const MainRoutes = {
   path: '/',
-  element: <MainLayout />,
+  element: (
+    <PrivateRoutes>
+      <MainLayout />
+    </PrivateRoutes>
+  ),
   children: [
     {
       path: '/',
-      element: <DashboardDefault />
+      element: (
+        <PrivateRoutes>
+          <DashboardDefault />
+        </PrivateRoutes>
+      )
     },
     {
       path: 'dashboard',
       children: [
         {
           path: 'default',
-          element: <DashboardDefault />
+          element: (
+            <PrivateRoutes>
+              <DashboardDefault />
+            </PrivateRoutes>
+          )
         }
       ]
     },
     {
       path: 'lista-estoque',
-      element: <StockList />
+      element: (
+        <PrivateRoutes>
+          <StockList />
+        </PrivateRoutes>
+      )
     },
     {
       path: 'cadastro-estoque',
-      element: <RegisterStock />
+      element: (
+        <PrivateRoutes>
+          <RegisterStock />
+        </PrivateRoutes>
+      )
     },
     {
       path: 'cadastro-estoque/:id',
-      element: <RegisterStock />
+      element: (
+        <PrivateRoutes>
+          <RegisterStock />
+        </PrivateRoutes>
+      )
     },
     {
       path: 'lista-categoria',
-      element: <ListCategory />
+      element: (
+        <PrivateRoutes>
+          <ListCategory />
+        </PrivateRoutes>
+      )
     },
     {
       path: 'cadastro-categoria',
-      element: <RegisterCategory />
+      element: (
+        <PrivateRoutes>
+          <RegisterCategory />
+        </PrivateRoutes>
+      )
     },
     {
       path: 'cadastro-categoria/:id',
-      element: <RegisterCategory />
+      element: (
+        <PrivateRoutes>
+          <RegisterCategory />
+        </PrivateRoutes>
+      )
     },
     {
       path: 'lista-produto',
-      element: <ProductList />
+      element: (
+        <PrivateRoutes>
+          <ProductList />
+        </PrivateRoutes>
+      )
     },
     {
       path: 'cadastro-produto',
-      element: <RegisterProduct />
+      element: (
+        <PrivateRoutes>
+          <RegisterProduct />
+        </PrivateRoutes>
+      )
     },
     {
       path: 'cadastro-produto/:id',
-      element: <RegisterProduct />
+      element: (
+        <PrivateRoutes>
+          <RegisterProduct />
+        </PrivateRoutes>
+      )
     },
     {
       path: 'lista-solicitante',
-      element: <RequesterList />
+      element: (
+        <PrivateRoutes>
+          <RequesterList />
+        </PrivateRoutes>
+      )
     },
     {
       path: 'cadastro-solicitante',
-      element: <RegisterRequester />
+      element: (
+        <PrivateRoutes>
+          <RegisterRequester />
+        </PrivateRoutes>
+      )
     },
     {
       path: 'cadastro-solicitante/:id',
-      element: <RegisterRequester />
+      element: (
+        <PrivateRoutes>
+          <RegisterRequester />
+        </PrivateRoutes>
+      )
     },
     {
       path: 'lista-usuario',
-      element: <UserList />
+      element: (
+        <PrivateRoutes>
+          <UserList />
+        </PrivateRoutes>
+      )
     },
     {
       path: 'cadastro-usuario',
-      element: <RegisterUser />
+      element: (
+        <PrivateRoutes>
+          <RegisterUser />
+        </PrivateRoutes>
+      )
     },
     {
       path: 'cadastro-usuario/:id',
-      element: <RegisterUser />
+      element: (
+        <PrivateRoutes>
+          <RegisterUser />
+        </PrivateRoutes>
+      )
     },
     {
       path: 'icons/ant',
-      element: <AntIcons />
+      element: (
+        <PrivateRoutes>
+          <AntIcons />
+        </PrivateRoutes>
+      )
     },
     {
       path: 'lista-entrada-itens',
-      element: <ItemsInputList />
+      element: (
+        <PrivateRoutes>
+          <ItemsInputList />
+        </PrivateRoutes>
+      )
     },
     {
       path: 'entrada-itens',
-      element: <ItemsInput />
+      element: (
+        <PrivateRoutes>
+          <ItemsInput />
+        </PrivateRoutes>
+      )
     },
     {
       path: 'entrada-itens/:id',
-      element: <ItemsInput />
+      element: (
+        <PrivateRoutes>
+          <ItemsInput />
+        </PrivateRoutes>
+      )
     },
     {
       path: 'lista-saida-itens',
-      element: <OutputItemsList />
+      element: (
+        <PrivateRoutes>
+          <OutputItemsList />
+        </PrivateRoutes>
+      )
     },
     {
       path: 'saida-itens',
-      element: <OutputItems />
+      element: (
+        <PrivateRoutes>
+          <OutputItems />
+        </PrivateRoutes>
+      )
     },
     {
       path: 'saida-itens/:id',
-      element: <OutputItems />
+      element: (
+        <PrivateRoutes>
+          <OutputItems />
+        </PrivateRoutes>
+      )
     },
     {
       path: 'lista-devolucao-itens',
-      element: <ReturnItensList />
+      element: (
+        <PrivateRoutes>
+          <ReturnItensList />
+        </PrivateRoutes>
+      )
     },
     {
       path: 'devolucao-itens',
-      element: <ReturnItens />
+      element: (
+        <PrivateRoutes>
+          <ReturnItens />
+        </PrivateRoutes>
+      )
     },
     {
       path: 'devolucao-itens/:id',
-      element: <ReturnItens />
+      element: (
+        <PrivateRoutes>
+          <ReturnItens />
+        </PrivateRoutes>
+      )
     },
     {
       path: 'inventario',
-      element: <Inventory />
+      element: (
+        <PrivateRoutes>
+          <Inventory />
+        </PrivateRoutes>
+      )
     }
   ]
 };
