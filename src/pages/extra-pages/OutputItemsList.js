@@ -66,7 +66,7 @@ const OutputItemsList = () => {
               <TableCell align="left">{item.estoqueId}</TableCell>
               <TableCell align="left">{item.usuarioId}</TableCell>
               <TableCell align="left">{item.solicitanteId}</TableCell>
-              <TableCell align="left">{item.gerarRecibo}</TableCell>
+              <TableCell align="left">{item.gerarRecibo ? "Sim" : "Não"}</TableCell>
               <TableCell align="left">{item.tipoSaida}</TableCell>
               <TableCell align="center">
                 <Button color="primary" onClick={() => navigate(`/saida-itens/${item.id}`)}>
