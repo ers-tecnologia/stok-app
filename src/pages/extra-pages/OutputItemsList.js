@@ -13,7 +13,6 @@ const OutputItemsList = () => {
       try {
         const response = await fetch('http://localhost:3001/api/saida-item');
         const data = await response.json();
-        console.log(data);
         setOuputItems(data);
       } catch (error) {
         console.error('Error fetching data: ', error);
@@ -66,7 +65,7 @@ const OutputItemsList = () => {
               <TableCell align="left">{item.estoqueId}</TableCell>
               <TableCell align="left">{item.usuarioId}</TableCell>
               <TableCell align="left">{item.solicitanteId}</TableCell>
-              <TableCell align="left">{item.gerarRecibo ? "Sim" : "Não"}</TableCell>
+              <TableCell align="left">{item.gerarRecibo ? 'Sim' : 'Não'}</TableCell>
               <TableCell align="left">{item.tipoSaida}</TableCell>
               <TableCell align="center">
                 <Button color="primary" onClick={() => navigate(`/saida-itens/${item.id}`)}>

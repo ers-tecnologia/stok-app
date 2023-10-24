@@ -35,7 +35,6 @@ const ReturnItems = () => {
           response = await fetch(`http://localhost:3001/api/devolucao-item/descricao/${produtoId}`);
           data = await response.json();
         }
-        console.log(data);
       } catch (error) {
         console.error('Erro ao buscar produto:', error);
       }
@@ -119,7 +118,7 @@ const ReturnItems = () => {
           <TextField label="ID" type="number" disabled fullWidth value={id} onChange={(e) => setId(e.target.value)} />
         </Grid>
         <Grid item xs={11}>
-        <FormControl fullWidth>
+          <FormControl fullWidth>
             <InputLabel id="produtoId-label">Buscar por Produtos</InputLabel>
             <Select labelId="produtoId-label" value={produtoId} onChange={handleProdutoIdChange}>
               {produtosId.map((produto) => (

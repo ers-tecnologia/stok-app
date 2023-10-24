@@ -13,7 +13,6 @@ const ItemsInputList = () => {
       try {
         const response = await fetch('http://localhost:3001/api/entrada-item');
         const data = await response.json();
-        console.log(data);
         setItemsInput(data);
       } catch (error) {
         console.error('Error fetching data: ', error);
