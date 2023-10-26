@@ -16,6 +16,7 @@ const RegisterProduct = () => {
   const [categorias, setCategorias] = useState([]);
   const [estado, setEstado] = React.useState('');
   const [fotoProduto, setFotoProduto] = React.useState(null);
+  const [imageURL, setImageURL] = useState(null);
 
   const handleCategoriaChange = (event) => {
     setCategoriaId(event.target.value);
@@ -28,7 +29,16 @@ const RegisterProduct = () => {
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     setFotoProduto(file);
+    setImageURL(URL.createObjectURL(file)); 
   };
+
+  useEffect(() => {
+    return () => {
+      if (imageURL) {
+        URL.revokeObjectURL(imageURL);
+      }
+    };
+  }, [imageURL]);
 
   useEffect(() => {
     if (itemId) {
@@ -44,6 +54,16 @@ const RegisterProduct = () => {
           setCategoriaId(data.categoriaId);
           setEstado(data.estado);
           setPontoPedido(data.pontoPedido);
+          setFotoProduto(data.fotoProduto);
+          if (data.fotoProduto) {
+            const base64String = btoa(
+              new Uint8Array(data.fotoProduto.data).reduce(
+                (data, byte) => data + String.fromCharCode(byte),
+                '',
+              ),
+            );
+            setImageURL(`data:image/png;base64,${base64String}`);
+          }
         } catch (error) {
           console.error("Error fetching data: ", error);
         }
@@ -156,7 +176,7 @@ const RegisterProduct = () => {
               Foto produto
             </Button>
           </label>
-          {fotoProduto && <img src={URL.createObjectURL(fotoProduto)} alt="Foto produto" />}
+          {imageURL && <img src={imageURL} alt={descricao} />}
 
         </Grid>
         <Grid item xs={12}>
