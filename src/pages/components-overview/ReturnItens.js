@@ -173,7 +173,7 @@ const ReturnItems = () => {
           </FormControl>
         </Grid>
         <Grid item xs={12}>
-          <TextField label="Usuário Responsável" disabled value="Usuário Logado" sx={{ width: '100%' }} />
+        <TextField label="Usuário Responsável" disabled value={localStorage.getItem('user')} sx={{ width: '100%' }} />
         </Grid>
         <Grid item xs={12}>
           <Grid container spacing={2}>

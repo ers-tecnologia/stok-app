@@ -180,6 +180,8 @@ const ItemsInput = () => {
             helperText={errors.user?.message}
             label="Usuário responsável"
             defaultValue="Usuário Logado"
+            disabled 
+            value={localStorage.getItem('user')}
           />
         </Grid>
 
