@@ -42,33 +42,28 @@ const Inventory = () => {
 
   const fetchProducts = async () => {
     try {
-      const responseSaldo = await fetch(`http://localhost:3001/api/saldo?estoqueId=${estoqueId}&produtoId=`);
+      const responseSaldo = await fetch(`http://localhost:3001/api/saldo/inventario?estoqueId=${estoqueId}`);
       const dataSaldo = await responseSaldo.json();
 
-      if (dataSaldo.length > 0) {
-        const primeiroItem = dataSaldo[0];
-        const produtoId = primeiroItem.produtoId;
+      const productRequests = dataSaldo.map(async (saldoItem) => {
+        const { produtoId, saldo } = saldoItem;
 
-        console.log('ID do produto a ser buscado:', produtoId);
+        const responseProduto = await fetch(`http://localhost:3001/api/produto/${produtoId}`);
+        const dataProduto = await responseProduto.json();
 
-        if (produtoId) {
-          const responseProduto = await fetch(`http://localhost:3001/api/produto/${produtoId}`);
-          const dataProduto = await responseProduto.json();
+        const responseEstoque = await fetch(`http://localhost:3001/api/estoque/${saldoItem.estoqueId}`);
+        const dataEstoque = await responseEstoque.json();
 
-          const responseEstoque = await fetch(`http://localhost:3001/api/estoque/${primeiroItem.estoqueId}`);
-          const dataEstoque = await responseEstoque.json();
+        return {
+          produtoId,
+          saldo,
+          descricaoProduto: dataProduto.descricao,
+          descricaoEstoque: dataEstoque.descricao
+        };
+      });
 
-          setProducts([
-            {
-              ...primeiroItem,
-              descricaoProduto: dataProduto.descricao,
-              descricaoEstoque: dataEstoque.descricao
-            }
-          ]);
-        } else {
-          console.error('ID do produto não encontrado.');
-        }
-      }
+      const productsData = await Promise.all(productRequests);
+      setProducts(productsData);
     } catch (error) {
       console.error('Error fetching saldo: ', error);
     }
@@ -160,7 +155,12 @@ const Inventory = () => {
         <Grid item xs={2}>
           <Box mb={1}>
             {inventoryStarted ? (
-              <Button variant="contained" color="success" onClick={saveInventory} fullWidth>
+              <Button
+                variant="contained"
+                sx={{ backgroundColor: '#4CAF50', '&:hover': { backgroundColor: '#45a049' } }}
+                onClick={saveInventory}
+                fullWidth
+              >
                 Salvar
               </Button>
             ) : null}
@@ -169,7 +169,12 @@ const Inventory = () => {
         <Grid item xs={2}>
           <Box mb={2}>
             {inventoryStarted ? (
-              <Button variant="contained" color="error" onClick={cancelInventory} fullWidth>
+              <Button
+                variant="contained"
+                sx={{ backgroundColor: '#f44336', '&:hover': { backgroundColor: '#d32f2f' } }}
+                onClick={cancelInventory}
+                fullWidth
+              >
                 Cancelar
               </Button>
             ) : (
@@ -187,7 +192,6 @@ const Inventory = () => {
             <TableRow>
               <TableCell>Produto ID</TableCell>
               <TableCell>Descrição Produto</TableCell>
-              <TableCell>Estoque ID</TableCell>
               <TableCell>Descrição Estoque</TableCell>
               <TableCell>Saldo</TableCell>
               <TableCell>Novo Saldo</TableCell>
@@ -198,7 +202,6 @@ const Inventory = () => {
               <TableRow key={product.produtoId}>
                 <TableCell>{product.produtoId}</TableCell>
                 <TableCell>{product.descricaoProduto}</TableCell>
-                <TableCell>{product.estoqueId}</TableCell>
                 <TableCell>{product.descricaoEstoque}</TableCell>
                 <TableCell>{product.saldo}</TableCell>
                 <TableCell>
