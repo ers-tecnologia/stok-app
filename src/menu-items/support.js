@@ -31,13 +31,6 @@ const support = {
       icon: icons.RedoOutlined
     },
     {
-      id: 'documentation',
-      title: 'Devolução de Itens',
-      type: 'item',
-      url: '/lista-devolucao-itens',
-      icon: icons.AlignCenterOutlined
-    },
-    {
       id: 'inventario',
       title: 'Inventário',
       type: 'item',

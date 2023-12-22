@@ -242,7 +242,7 @@ const MainRoutes = {
       )
     },
     {
-      path: 'lista-devolucao-itens',
+      path: 'lista-sub-estoque',
       element: (
         <PrivateRoutes>
           <ReturnItensList />
@@ -250,7 +250,7 @@ const MainRoutes = {
       )
     },
     {
-      path: 'devolucao-itens',
+      path: 'sub-estoque',
       element: (
         <PrivateRoutes>
           <ReturnItens />
@@ -258,7 +258,7 @@ const MainRoutes = {
       )
     },
     {
-      path: 'devolucao-itens/:id',
+      path: 'sub-estoque/:id',
       element: (
         <PrivateRoutes>
           <ReturnItens />

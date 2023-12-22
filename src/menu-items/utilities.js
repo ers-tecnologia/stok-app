@@ -7,7 +7,8 @@ import {
   FontSizeOutlined,
   LoadingOutlined,
   DropboxOutlined,
-  UserOutlined
+  UserOutlined,
+  PicRightOutlined
 } from '@ant-design/icons';
 
 // icons
@@ -19,7 +20,8 @@ const icons = {
   LoadingOutlined,
   AppstoreAddOutlined,
   DropboxOutlined,
-  UserOutlined
+  UserOutlined,
+  PicRightOutlined
 };
 
 // ==============================|| MENU ITEMS - UTILITIES ||============================== //
@@ -35,6 +37,13 @@ const utilities = {
       type: 'item',
       url: '/lista-estoque',
       icon: icons.DropboxOutlined
+    },
+    {
+      id: 'util-sub-stock',
+      title: 'Sub-Estoque',
+      type: 'item',
+      url: '/lista-sub-estoque',
+      icon: icons.PicRightOutlined
     },
     {
       id: 'util-category',
