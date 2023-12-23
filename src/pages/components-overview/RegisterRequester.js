@@ -12,35 +12,37 @@ const RegisterRequester = () => {
     if (itemId) {
       const fetchData = async () => {
         try {
-          const response = await fetch(`http://localhost:3001/api/solicitante/${itemId}`);
+          const response = await fetch(`http://orion.vps-kinghost.net:3001/api/solicitante/${itemId}`);
           const data = await response.json();
           setId(data.id);
           setNome(data.nome);
         } catch (error) {
-          console.error("Error fetching data: ", error);
+          console.error('Error fetching data: ', error);
         }
       };
-  
+
       fetchData();
     }
   }, [itemId]);
 
   const handleSave = async () => {
     const method = itemId ? 'PUT' : 'POST';
-    const url = itemId ? `http://localhost:3001/api/solicitante/${itemId}` : 'http://localhost:3001/api/solicitante';
-  
+    const url = itemId
+      ? `http://orion.vps-kinghost.net:3001/api/solicitante/${itemId}`
+      : 'http://orion.vps-kinghost.net:3001/api/solicitante';
+
     const response = await fetch(url, {
       method,
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ nome }),
+      body: JSON.stringify({ nome })
     });
-  
+
     if (response.ok) {
       navigate('/lista-solicitante');
     } else {
-      console.log("ERRO");
+      console.log('ERRO');
     }
   };
   return (

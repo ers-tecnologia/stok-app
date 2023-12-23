@@ -12,35 +12,35 @@ const RegisterStock = () => {
     if (itemId) {
       const fetchData = async () => {
         try {
-          const response = await fetch(`http://localhost:3001/api/estoque/${itemId}`);
+          const response = await fetch(`http://orion.vps-kinghost.net:3001/api/estoque/${itemId}`);
           const data = await response.json();
           setId(data.id);
           setDescricao(data.descricao);
         } catch (error) {
-          console.error("Error fetching data: ", error);
+          console.error('Error fetching data: ', error);
         }
       };
-  
+
       fetchData();
     }
   }, [itemId]);
 
   const handleSave = async () => {
     const method = itemId ? 'PUT' : 'POST';
-    const url = itemId ? `http://localhost:3001/api/estoque/${itemId}` : 'http://localhost:3001/api/estoque';
-  
+    const url = itemId ? `http://orion.vps-kinghost.net:3001/api/estoque/${itemId}` : 'http://orion.vps-kinghost.net:3001/api/estoque';
+
     const response = await fetch(url, {
       method,
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ descricao }),
+      body: JSON.stringify({ descricao })
     });
-  
+
     if (response.ok) {
       navigate('/lista-estoque');
     } else {
-      console.log("ERRO");
+      console.log('ERRO');
     }
   };
 

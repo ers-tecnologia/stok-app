@@ -8,7 +8,7 @@ import { EyeOutlined, EyeInvisibleOutlined } from '@ant-design/icons';
 
 const handleLogin = async (values) => {
   try {
-    const response = await fetch('http://localhost:3001/api/login', {
+    const response = await fetch('http://orion.vps-kinghost.net:3001/api/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -21,7 +21,7 @@ const handleLogin = async (values) => {
 
     if (response.ok) {
       const data = await response.json();
-      localStorage.setItem('token', data.token);  // Armazena o token no localStorage
+      localStorage.setItem('token', data.token); // Armazena o token no localStorage
       localStorage.setItem('user', data.usuario.nome);
       return { success: true };
     } else {

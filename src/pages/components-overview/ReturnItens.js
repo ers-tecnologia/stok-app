@@ -13,12 +13,12 @@ const RegisterStock = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const responseEstoque = await fetch('http://localhost:3001/api/estoque');
+        const responseEstoque = await fetch('http://orion.vps-kinghost.net:3001/api/estoque');
         const dataEstoque = await responseEstoque.json();
         setEstoques(dataEstoque);
 
         if (itemId) {
-          const responseSubEstoque = await fetch(`http://localhost:3001/api/sub-estoque/${itemId}`);
+          const responseSubEstoque = await fetch(`http://orion.vps-kinghost.net:3001/api/sub-estoque/${itemId}`);
           const dataSubEstoque = await responseSubEstoque.json();
           setId(dataSubEstoque.id);
           setDescricao(dataSubEstoque.descricao);
@@ -34,7 +34,9 @@ const RegisterStock = () => {
 
   const handleSave = async () => {
     try {
-      const url = itemId ? `http://localhost:3001/api/sub-estoque/${itemId}` : 'http://localhost:3001/api/sub-estoque';
+      const url = itemId
+        ? `http://orion.vps-kinghost.net:3001/api/sub-estoque/${itemId}`
+        : 'http://orion.vps-kinghost.net:3001/api/sub-estoque';
 
       const method = itemId ? 'PUT' : 'POST';
 
