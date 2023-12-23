@@ -216,7 +216,7 @@ const Inventory = () => {
           </FormControl>
         </Grid>
         <Grid item xs={2}>
-          <Box mb={1}>
+          <Box mb={2}>
             {inventoryStarted ? (
               <Button
                 variant="contained"
@@ -229,8 +229,8 @@ const Inventory = () => {
             ) : null}
           </Box>
         </Grid>
-        <Grid item xs={2}>
-          <Box mb={2}>
+        <Grid item xs={3}>
+          <Box mb={3} sx={{ display: 'flex', gap: '8px' }}>
             {inventoryStarted ? (
               <Button
                 variant="contained"
