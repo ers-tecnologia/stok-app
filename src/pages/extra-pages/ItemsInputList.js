@@ -74,10 +74,10 @@ const ItemsInputList = () => {
               <TableCell align="left">{estoques.find((estoque) => estoque.id === item.estoqueId)?.descricao || 'N/A'}</TableCell>
               <TableCell align="left">{new Date(item.dataEntrada).toLocaleDateString('pt-BR')}</TableCell>
               <TableCell align="center">
-                <Button color="primary" onClick={() => navigate(`/entrada-itens/${item.id}`)}>
+                <Button disabled color="primary" onClick={() => navigate(`/entrada-itens/${item.id}`)}>
                   <EditIcon />
                 </Button>
-                <Button color="secondary" onClick={() => deleteItem(item.id)}>
+                <Button disabled color="secondary" onClick={() => deleteItem(item.id)}>
                   <DeleteIcon />
                 </Button>
               </TableCell>
