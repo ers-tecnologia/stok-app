@@ -5,7 +5,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 
 const RegisterProduct = () => {
   const { id: itemId } = useParams();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [id, setId] = useState('');
   const [patrimonio, setPatrimonio] = useState('');
   const [descricao, setDescricao] = useState('');
@@ -29,7 +29,7 @@ const RegisterProduct = () => {
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     setFotoProduto(file);
-    setImageURL(URL.createObjectURL(file)); 
+    setImageURL(URL.createObjectURL(file));
   };
 
   useEffect(() => {
@@ -44,7 +44,7 @@ const RegisterProduct = () => {
     if (itemId) {
       const fetchData = async () => {
         try {
-          const response = await fetch(`http://localhost:3001/api/produto/${itemId}`);
+          const response = await fetch(`http://orion.vps-kinghost.net:3001/api/produto/${itemId}`);
           const data = await response.json();
           setId(data.id);
           setDescricao(data.descricao);
@@ -56,26 +56,21 @@ const RegisterProduct = () => {
           setPontoPedido(data.pontoPedido);
           setFotoProduto(data.fotoProduto);
           if (data.fotoProduto) {
-            const base64String = btoa(
-              new Uint8Array(data.fotoProduto.data).reduce(
-                (data, byte) => data + String.fromCharCode(byte),
-                '',
-              ),
-            );
+            const base64String = btoa(new Uint8Array(data.fotoProduto.data).reduce((data, byte) => data + String.fromCharCode(byte), ''));
             setImageURL(`data:image/png;base64,${base64String}`);
           }
         } catch (error) {
-          console.error("Error fetching data: ", error);
+          console.error('Error fetching data: ', error);
         }
       };
-  
+
       fetchData();
     }
   }, [itemId]);
 
   useEffect(() => {
     const fetchCategorias = async () => {
-      const response = await fetch('http://localhost:3001/api/categoria');
+      const response = await fetch('http://orion.vps-kinghost.net:3001/api/categoria');
       const data = await response.json();
       setCategorias(data);
     };
@@ -86,29 +81,21 @@ const RegisterProduct = () => {
   const handleSave = async () => {
     const method = itemId ? 'PUT' : 'POST';
     const url = itemId ? `http://localhost:3001/api/produto/${itemId}` : 'http://localhost:3001/api/produto';
-    
-    const formData = new FormData();
-    formData.append('fotoProduto', fotoProduto);
-    formData.append('patrimonio', patrimonio);
-    formData.append('descricao', descricao);
-    formData.append('categoriaId', categoriaId);
-    formData.append('estado', estado);
-    formData.append('estoqueMinimo', estoqueMinimo);
-    formData.append('estoqueMaximo', estoqueMaximo);
-    formData.append('pontoPedido', pontoPedido);
-  
+
     const response = await fetch(url, {
       method,
-      body: formData,
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ patrimonio, descricao, categoriaId, estado, estoqueMinimo, estoqueMaximo })
     });
-  
+
     if (response.ok) {
       navigate('/lista-produto', { state: { fotoProduto } });
     } else {
-      console.log("ERRO");
+      console.log('ERRO');
     }
   };
-  
 
   return (
     <Paper elevation={3} style={{ padding: 20, margin: 'auto' }}>
@@ -123,14 +110,16 @@ const RegisterProduct = () => {
           <TextField label="Descrição" fullWidth value={descricao} onChange={(e) => setDescricao(e.target.value)} />
         </Grid>
         <Grid item xs={3}>
-            <FormControl fullWidth>
-      <InputLabel>Categoria</InputLabel>
-      <Select value={categoriaId} onChange={handleCategoriaChange}>
-        {categorias.map((categoria) => (
-          <MenuItem key={categoria.id} value={categoria.id}>{categoria.descricao}</MenuItem>
-        ))}
-      </Select>
-    </FormControl>
+          <FormControl fullWidth>
+            <InputLabel>Categoria</InputLabel>
+            <Select value={categoriaId} onChange={handleCategoriaChange}>
+              {categorias.map((categoria) => (
+                <MenuItem key={categoria.id} value={categoria.id}>
+                  {categoria.descricao}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
         </Grid>
         <Grid item xs={3}>
           <FormControl fullWidth>
@@ -164,20 +153,13 @@ const RegisterProduct = () => {
           <TextField label="Ponto de pedido" type="number" fullWidth value={pontoPedido} onChange={(e) => setPontoPedido(e.target.value)} />
         </Grid>
         <Grid item xs={2}>
-          <input
-            accept=".jpg,.png"
-            style={{ display: 'none' }}
-            id="upload-photo"
-            type="file"
-            onChange={handleFileChange} 
-          />
+          <input accept=".jpg,.png" style={{ display: 'none' }} id="upload-photo" type="file" onChange={handleFileChange} />
           <label htmlFor="upload-photo">
             <Button variant="contained" color="secondary" component="span" startIcon={<CloudUploadIcon />}>
               Foto produto
             </Button>
           </label>
           {imageURL && <img src={imageURL} alt={descricao} />}
-
         </Grid>
         <Grid item xs={12}>
           <Grid container spacing={1}>

@@ -14,7 +14,7 @@ const OutputItemsList = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('http://localhost:3001/api/saida-item');
+        const response = await fetch('http://orion.vps-kinghost.net:3001/api/saida-item');
         const data = await response.json();
         setOutputItems(data);
       } catch (error) {
@@ -60,8 +60,8 @@ const OutputItemsList = () => {
 
   const deleteItem = async (id) => {
     try {
-      await fetch(`http://localhost:3001/api/saida-item/${id}`, { method: 'DELETE' });
-      const response = await fetch('http://localhost:3001/api/saida-item');
+      await fetch(`http://orion.vps-kinghost.net:3001/api/saida-item/${id}`, { method: 'DELETE' });
+      const response = await fetch('http://orion.vps-kinghost.net:3001/api/saida-item');
       const data = await response.json();
       setOutputItems(data);
     } catch (error) {

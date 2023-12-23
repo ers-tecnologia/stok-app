@@ -12,9 +12,6 @@ const ProductList = () => {
     const fetchData = async () => {
       try {
         const response = await fetch('http://localhost:3001/api/produto');
-        if (!response.ok) {
-          throw new Error('Erro ao buscar os dados');
-        }
         const data = await response.json();
         setProduto(data);
       } catch (error) {
@@ -27,8 +24,8 @@ const ProductList = () => {
 
   const deleteItem = async (id) => {
     try {
-      await fetch(`http://localhost:3001/api/produto/${id}`, { method: 'DELETE' });
-      const response = await fetch('http://localhost:3001/api/produto');
+      await fetch(`http://orion.vps-kinghost.net:3001/api/produto/${id}`, { method: 'DELETE' });
+      const response = await fetch('http://orion.vps-kinghost.net:3001/api/produto');
       const data = await response.json();
       setProduto(data);
     } catch (error) {

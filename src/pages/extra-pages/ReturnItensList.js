@@ -7,33 +7,28 @@ import { useNavigate } from 'react-router-dom';
 
 const StockList = () => {
   const navigate = useNavigate();
-  const [subEstoques, setSubEstoques] = useState([]);
-  const [estoques, setEstoques] = useState([]);
+  const [returnItens, setReturnItens] = useState([]);
 
-  const fetchSubEstoques = async () => {
-    try {
-      const responseSubEstoque = await fetch('http://localhost:3001/api/sub-estoque');
-      const dataSubEstoque = await responseSubEstoque.json();
-      setSubEstoques(dataSubEstoque);
-    } catch (error) {
-      console.error('Error fetching sub-estoque data: ', error);
-    }
-  };
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch('http://localhost:3001/api/devolucao-item');
+        const data = await response.json();
+        setReturnItens(data);
+      } catch (error) {
+        console.error('Error fetching data: ', error);
+      }
+    };
 
-  const fetchEstoques = async () => {
-    try {
-      const responseEstoque = await fetch('http://localhost:3001/api/estoque');
-      const dataEstoque = await responseEstoque.json();
-      setEstoques(dataEstoque);
-    } catch (error) {
-      console.error('Error fetching estoque data: ', error);
-    }
-  };
+    fetchData();
+  }, []);
 
   const deleteItem = async (id) => {
     try {
-      await fetch(`http://localhost:3001/api/sub-estoque/${id}`, { method: 'DELETE' });
-      fetchSubEstoques();
+      await fetch(`http://localhost:3001/api/devolucao-item/${id}`, { method: 'DELETE' });
+      const response = await fetch('http://localhost:3001/api/devolucao-item');
+      const data = await response.json();
+      setReturnItens(data);
     } catch (error) {
       console.error('Error deleting item: ', error);
     }
