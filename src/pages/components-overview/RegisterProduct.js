@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import { TextField, Button, Grid, Paper, FormControl, InputLabel, Select, MenuItem, Typography } from '@mui/material';
+import { TextField, Button, Grid, Paper, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 
 const RegisterProduct = () => {
@@ -11,11 +11,12 @@ const RegisterProduct = () => {
   const [descricao, setDescricao] = useState('');
   const [estoqueMinimo, setEstoqueMinimo] = useState('');
   const [estoqueMaximo, setEstiqueMaximo] = useState('');
-  const [pedido, setPedido] = useState();
+  const [pontoPedido, setPontoPedido] = useState();
   const [categoriaId, setCategoriaId] = React.useState('');
   const [categorias, setCategorias] = useState([]);
   const [estado, setEstado] = React.useState('');
-  const [selectedFile, setSelectedFile] = React.useState(null);
+  const [fotoProduto, setFotoProduto] = React.useState(null);
+  const [imageURL, setImageURL] = useState(null);
 
   const handleCategoriaChange = (event) => {
     setCategoriaId(event.target.value);
@@ -27,8 +28,17 @@ const RegisterProduct = () => {
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
-    setSelectedFile(file);
+    setFotoProduto(file);
+    setImageURL(URL.createObjectURL(file));
   };
+
+  useEffect(() => {
+    return () => {
+      if (imageURL) {
+        URL.revokeObjectURL(imageURL);
+      }
+    };
+  }, [imageURL]);
 
   useEffect(() => {
     if (itemId) {
@@ -43,6 +53,12 @@ const RegisterProduct = () => {
           setEstiqueMaximo(data.estoqueMaximo);
           setCategoriaId(data.categoriaId);
           setEstado(data.estado);
+          setPontoPedido(data.pontoPedido);
+          setFotoProduto(data.fotoProduto);
+          if (data.fotoProduto) {
+            const base64String = btoa(new Uint8Array(data.fotoProduto.data).reduce((data, byte) => data + String.fromCharCode(byte), ''));
+            setImageURL(`data:image/png;base64,${base64String}`);
+          }
         } catch (error) {
           console.error('Error fetching data: ', error);
         }
@@ -64,7 +80,7 @@ const RegisterProduct = () => {
 
   const handleSave = async () => {
     const method = itemId ? 'PUT' : 'POST';
-    const url = itemId ? `http://orion.vps-kinghost.net:3001/api/produto/${itemId}` : 'http://orion.vps-kinghost.net:3001/api/produto';
+    const url = itemId ? `http://localhost:3001/api/produto/${itemId}` : 'http://localhost:3001/api/produto';
 
     const response = await fetch(url, {
       method,
@@ -75,7 +91,7 @@ const RegisterProduct = () => {
     });
 
     if (response.ok) {
-      navigate('/lista-produto');
+      navigate('/lista-produto', { state: { fotoProduto } });
     } else {
       console.log('ERRO');
     }
@@ -109,9 +125,9 @@ const RegisterProduct = () => {
           <FormControl fullWidth>
             <InputLabel>Estado</InputLabel>
             <Select value={estado} onChange={handleEstadoChange}>
-              <MenuItem value={10}>Estado 1</MenuItem>
-              <MenuItem value={20}>Estado 2</MenuItem>
-              <MenuItem value={30}>Estado 3</MenuItem>
+              <MenuItem value="Novo">Novo</MenuItem>
+              <MenuItem value="Usado">Usado</MenuItem>
+              <MenuItem value="Recondicionado">Recondicionado</MenuItem>
             </Select>
           </FormControl>
         </Grid>
@@ -134,22 +150,16 @@ const RegisterProduct = () => {
           />
         </Grid>
         <Grid item xs={2}>
-          <TextField label="Ponto de pedido" type="number" fullWidth value={pedido} onChange={(e) => setPedido(e.target.value)} />
+          <TextField label="Ponto de pedido" type="number" fullWidth value={pontoPedido} onChange={(e) => setPontoPedido(e.target.value)} />
         </Grid>
         <Grid item xs={2}>
-          <input
-            accept=".jpg,.png"
-            style={{ display: 'none' }}
-            id="upload-photo"
-            type="file"
-            onChange={handleFileChange} // Chama a função quando o arquivo é selecionado
-          />
+          <input accept=".jpg,.png" style={{ display: 'none' }} id="upload-photo" type="file" onChange={handleFileChange} />
           <label htmlFor="upload-photo">
             <Button variant="contained" color="secondary" component="span" startIcon={<CloudUploadIcon />}>
               Foto produto
             </Button>
           </label>
-          {selectedFile && <Typography variant="body1">Arquivo selecionado: {selectedFile.name}</Typography>}
+          {imageURL && <img src={imageURL} alt={descricao} />}
         </Grid>
         <Grid item xs={12}>
           <Grid container spacing={1}>

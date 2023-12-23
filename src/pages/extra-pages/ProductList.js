@@ -11,9 +11,8 @@ const ProductList = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('http://orion.vps-kinghost.net:3001/api/produto');
+        const response = await fetch('http://localhost:3001/api/produto');
         const data = await response.json();
-        console.log(data);
         setProduto(data);
       } catch (error) {
         console.error('Error fetching data: ', error);
@@ -43,37 +42,49 @@ const ProductList = () => {
         <TableHead>
           <TableRow>
             <TableCell>ID</TableCell>
+            <TableCell align="left">Imagem</TableCell>
             <TableCell align="left">Patrimônio</TableCell>
             <TableCell align="left">Descrição</TableCell>
             <TableCell align="left">Categoria</TableCell>
             <TableCell align="left">Estado</TableCell>
             <TableCell align="left">Estoque Min.</TableCell>
             <TableCell align="left">Estoque Max.</TableCell>
+            <TableCell align="left">Ponto de Pedido</TableCell>
             <TableCell align="center">Ações</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {produto.map((item) => (
-            <TableRow key={item.id}>
-              <TableCell component="th" scope="row">
-                {item.id}
-              </TableCell>
-              <TableCell align="left">{item.patrimonio}</TableCell>
-              <TableCell align="left">{item.descricao}</TableCell>
-              <TableCell align="left">{item.categoriaId}</TableCell>
-              <TableCell align="left">{item.estado}</TableCell>
-              <TableCell align="left">{item.estoqueMaximo}</TableCell>
-              <TableCell align="left">{item.estoqueMinimo}</TableCell>
-              <TableCell align="center">
-                <Button color="primary" onClick={() => navigate(`/cadastro-produto/${item.id}`)}>
-                  <EditIcon />
-                </Button>
-                <Button color="secondary" onClick={() => deleteItem(item.id)}>
-                  <DeleteIcon />
-                </Button>
-              </TableCell>
-            </TableRow>
-          ))}
+          {produto.map((item) => {
+            return (
+              <TableRow key={item.id}>
+                <TableCell component="th" scope="row">
+                  {item.id}
+                </TableCell>
+                <TableCell align="left">
+                  {item.fotoProduto && item.fotoProduto !== 'data:null;base64,bnVsbA==' ? (
+                    <img src={item.fotoProduto} alt="Foto do produto" style={{ width: '100px', height: '100px' }} />
+                  ) : (
+                    'SEM IMAGEM'
+                  )}
+                </TableCell>
+                <TableCell align="left"> {item.patrimonio}</TableCell>
+                <TableCell align="left">{item.descricao}</TableCell>
+                <TableCell align="left">{item.categoria.descricao}</TableCell>
+                <TableCell align="left">{item.estado}</TableCell>
+                <TableCell align="left">{item.estoqueMinimo}</TableCell>
+                <TableCell align="left">{item.estoqueMaximo}</TableCell>
+                <TableCell align="left">{item.pontoPedido}</TableCell>
+                <TableCell align="center">
+                  <Button color="primary" onClick={() => navigate(`/cadastro-produto/${item.id}`)}>
+                    <EditIcon />
+                  </Button>
+                  <Button color="secondary" onClick={() => deleteItem(item.id)}>
+                    <DeleteIcon />
+                  </Button>
+                </TableCell>
+              </TableRow>
+            );
+          })}
         </TableBody>
       </Table>
     </TableContainer>

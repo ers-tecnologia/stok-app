@@ -1,16 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { TextField, Button, Grid, FormControl, InputLabel, Select, MenuItem, Paper } from '@mui/material';
-import { Link, useNavigate, useParams } from '../../../node_modules/react-router-dom/dist/index';
+import { TextField, Button, Grid, Paper, Select, MenuItem, InputLabel, FormControl } from '@mui/material';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 
-const ReturnItems = () => {
-  const navigate = useNavigate();
+const RegisterStock = () => {
   const { id: itemId } = useParams();
   const [id, setId] = useState('');
-  const [produtoId, setProdutoId] = useState([]);
-  const [produtosId, setProdutosId] = useState([]);
-  const [quantidade, setQuantidade] = useState('');
-  const [dataEntrada, setDataEntrada] = useState();
-  const [estoqueId, setEstoqueId] = useState([]);
+  const [descricao, setDescricao] = useState('');
+  const [estoqueId, setEstoqueId] = useState('');
   const [estoques, setEstoques] = useState([]);
   const [solicitanteId, setSolicitanteId] = useState([]);
   const [solicitantes, setSolicitantes] = useState([]);
@@ -28,33 +24,32 @@ const ReturnItems = () => {
 
     if (produtoId) {
       try {
-        let response = await fetch(`http://orion.vps-kinghost.net:3001/api/devolucao-item/produtoId/${produtoId}`);
+        let response = await fetch(`http://localhost:3001/api/devolucao-item/produtoId/${produtoId}`);
         let data = await response.json();
 
         if (!data) {
-          response = await fetch(`http://orion.vps-kinghost.net:3001/api/devolucao-item/descricao/${produtoId}`);
+          response = await fetch(`http://localhost:3001/api/devolucao-item/descricao/${produtoId}`);
           data = await response.json();
         }
-        console.log(data);
       } catch (error) {
-        console.error('Erro ao buscar produto:', error);
+        console.error('Error fetching data: ', error);
       }
-    }
-  };
+    };
+
+    fetchData();
+  }, [itemId]);
 
   const handleSave = async () => {
     const method = itemId ? 'PUT' : 'POST';
-    const url = itemId
-      ? `http://orion.vps-kinghost.net:3001/api/devolucao-item/${itemId}`
-      : 'http://orion.vps-kinghost.net:3001/api/devolucao-item';
+    const url = itemId ? `http://localhost:3001/api/devolucao-item/${itemId}` : 'http://localhost:3001/api/devolucao-item';
 
-    const response = await fetch(url, {
-      method,
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ produtoId, quantidade, dataEntrada, estoqueId, solicitanteId })
-    });
+      const response = await fetch(url, {
+        method,
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ descricao, estoqueId })
+      });
 
     if (response.ok) {
       navigate('/lista-devolucao-itens');
@@ -65,7 +60,7 @@ const ReturnItems = () => {
 
   useEffect(() => {
     const fetchProduto = async () => {
-      const response = await fetch('http://orion.vps-kinghost.net:3001/api/produto');
+      const response = await fetch('http://localhost:3001/api/produto');
       const data = await response.json();
       setProdutosId(data);
     };
@@ -77,7 +72,7 @@ const ReturnItems = () => {
     if (itemId) {
       const fetchData = async () => {
         try {
-          const response = await fetch(`http://orion.vps-kinghost.net:3001/api/devolucao-item/${itemId}`);
+          const response = await fetch(`http://localhost:3001/api/devolucao-item/${itemId}`);
           const data = await response.json();
           setId(data.id);
           setProdutoId(data.produtoId);
@@ -96,7 +91,7 @@ const ReturnItems = () => {
 
   useEffect(() => {
     const fetchEstoque = async () => {
-      const response = await fetch('http://orion.vps-kinghost.net:3001/api/estoque');
+      const response = await fetch('http://localhost:3001/api/estoque');
       const data = await response.json();
       setEstoques(data);
     };
@@ -106,7 +101,7 @@ const ReturnItems = () => {
 
   useEffect(() => {
     const fetchSolicitante = async () => {
-      const response = await fetch('http://orion.vps-kinghost.net:3001/api/solicitante');
+      const response = await fetch('http://localhost:3001/api/solicitante');
       const data = await response.json();
       setSolicitantes(data);
     };
@@ -121,7 +116,7 @@ const ReturnItems = () => {
           <TextField label="ID" type="number" disabled fullWidth value={id} onChange={(e) => setId(e.target.value)} />
         </Grid>
         <Grid item xs={11}>
-          <FormControl fullWidth>
+        <FormControl fullWidth>
             <InputLabel id="produtoId-label">Buscar por Produtos</InputLabel>
             <Select labelId="produtoId-label" value={produtoId} onChange={handleProdutoIdChange}>
               {produtosId.map((produto) => (
@@ -153,20 +148,8 @@ const ReturnItems = () => {
         </Grid>
         <Grid item xs={3}>
           <FormControl fullWidth>
-            <InputLabel id="solicitants-label">Solicitante</InputLabel>
-            <Select labelId="solicitants-label" multiple value={solicitanteId} onChange={handleSolicitanteChange}>
-              {solicitantes.map((solicitante) => (
-                <MenuItem key={solicitante.id} value={solicitante.id}>
-                  {solicitante.nome}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-        </Grid>
-        <Grid item xs={3}>
-          <FormControl fullWidth>
-            <InputLabel>Estoque Destino</InputLabel>
-            <Select labelId="origin-stock-label" value={estoqueId} onChange={handleEstoqueChange}>
+            <InputLabel id="estoque-label">Estoque</InputLabel>
+            <Select labelId="estoque-label" id="estoque" value={estoqueId} onChange={(e) => setEstoqueId(e.target.value)}>
               {estoques.map((estoque) => (
                 <MenuItem key={estoque.id} value={estoque.id}>
                   {estoque.descricao}
@@ -175,26 +158,23 @@ const ReturnItems = () => {
             </Select>
           </FormControl>
         </Grid>
-        <Grid item xs={12}>
-          <TextField label="Usuário Responsável" disabled value="Usuário Logado" sx={{ width: '100%' }} />
+
+        <Grid item xs={6}>
+          <TextField label="Descrição Sub-Estoque" fullWidth value={descricao} onChange={(e) => setDescricao(e.target.value)} />
         </Grid>
-        <Grid item xs={12}>
-          <Grid container spacing={2}>
-            <Grid item xs={1}>
-              <Button variant="contained" color="success" fullWidth onClick={handleSave}>
-                Salvar
-              </Button>
-            </Grid>
-            <Grid item xs={1}>
-              <Button variant="contained" component={Link} to="/lista-devolucao-itens" color="primary" fullWidth>
-                Voltar
-              </Button>
-            </Grid>
-          </Grid>
+        <Grid item xs={1}>
+          <Button variant="contained" color="success" fullWidth onClick={handleSave}>
+            Salvar
+          </Button>
+        </Grid>
+        <Grid item xs={1}>
+          <Button variant="contained" component={Link} to="/lista-sub-estoque" color="primary" fullWidth>
+            Voltar
+          </Button>
         </Grid>
       </Grid>
     </Paper>
   );
 };
 
-export default ReturnItems;
+export default RegisterStock;

@@ -21,7 +21,8 @@ const handleLogin = async (values) => {
 
     if (response.ok) {
       const data = await response.json();
-      localStorage.setItem('token', data.token); // Armazena o token no localStorage
+      localStorage.setItem('token', data.token);  // Armazena o token no localStorage
+      localStorage.setItem('user', data.usuario.nome);
       return { success: true };
     } else {
       const data = await response.json();

@@ -71,6 +71,10 @@ const OutputItems = () => {
     setEstoqueId(event.target.value);
   };
 
+  const handleGerarReciboChange = (e) => {
+    setGerarRecibo(e.target.value);
+  };
+
   useEffect(() => {
     if (itemId) {
       const fetchData = async () => {
@@ -207,9 +211,9 @@ const OutputItems = () => {
         <Grid item xs={3}>
           <FormControl sx={{ width: '100%' }}>
             <InputLabel id="generate-receipt-label">Gerar recibo</InputLabel>
-            <Select labelId="generate-receipt-label" value={gerarRecibo} onChange={(e) => setGerarRecibo(e.target.value)}>
-              <MenuItem value={false}>Sim</MenuItem>
-              <MenuItem value={true}>Não</MenuItem>
+            <Select labelId="generate-receipt-label" value={gerarRecibo} onChange={handleGerarReciboChange}>
+              <MenuItem value={false}>Não</MenuItem>
+              <MenuItem value={true}>Sim</MenuItem>
             </Select>
           </FormControl>
         </Grid>
