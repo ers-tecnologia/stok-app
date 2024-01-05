@@ -20,6 +20,15 @@ import {
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 
+const bufferToBase64 = (buffer) => {
+  let binary = '';
+  const bytes = new Uint8Array(buffer);
+  for (let i = 0; i < bytes.byteLength; i++) {
+    binary += String.fromCharCode(bytes[i]);
+  }
+  return btoa(binary);
+};
+
 const Inventory = () => {
   const navigate = useNavigate();
   const [estoques, setEstoques] = useState([]);
@@ -58,11 +67,11 @@ const Inventory = () => {
 
         return {
           produtoId,
-          fotoProduto: dataProduto.fotoProduto,
           saldo,
           descricaoProduto: dataProduto.descricao,
           descricaoEstoque: dataEstoque.descricao,
-          mimeType: dataProduto.mimeType // Adicione o tipo MIME da imagem
+          fotoProduto: dataProduto.fotoProduto, // Adicione a foto do produto aqui
+          mimeType: dataProduto.mimeType
         };
       });
 
@@ -89,7 +98,6 @@ const Inventory = () => {
       const saveRequests = Object.entries(newSaldos).map(async ([productId, newSaldo]) => {
         console.log('Produto ID:', productId, 'Novo Saldo:', newSaldo);
 
-        // Verificar se o novo saldo é um número ou uma string vazia antes de enviar a requisição
         if (!isNaN(newSaldo) || newSaldo === '') {
           const response = await fetch('http://orion.vps-kinghost.net:3001/api/saldo', {
             method: 'POST',
@@ -119,7 +127,6 @@ const Inventory = () => {
       console.log('Inventário salvo com sucesso!');
       setInventoryStarted(false);
 
-      // Realizar o refresh da página
       window.location.reload();
     } catch (error) {
       console.error('Erro ao salvar inventário: ', error);
@@ -135,7 +142,6 @@ const Inventory = () => {
   const handleNewSaldoChange = (productId) => (e) => {
     const value = e.target.value;
 
-    // Garante que o valor seja convertido para número ou permaneça vazio
     const newSaldoValue = value !== '' ? parseFloat(value) : '';
 
     setNewSaldos((prevSaldos) => ({
@@ -144,16 +150,7 @@ const Inventory = () => {
     }));
   };
 
-  const bufferToBase64 = (buffer) => {
-    let binary = '';
-    const bytes = new Uint8Array(buffer);
-    for (let i = 0; i < bytes.byteLength; i++) {
-      binary += String.fromCharCode(bytes[i]);
-    }
-    return btoa(binary);
-  };
-
-  const generatePDF = async () => {
+  const generatePDF = () => {
     const pdf = new jsPDF();
     const fontSize = 10;
 
@@ -163,7 +160,9 @@ const Inventory = () => {
     const logoHeight = 30;
 
     // Carrega a imagem do logotipo (PNG)
-    const logoImage = await loadImage(logoPath);
+    const logoImage = new Image();
+    logoImage.src = logoPath;
+
     pdf.addImage(logoImage, 'PNG', 20, 10, logoWidth, logoHeight);
 
     pdf.setFontSize(14);
@@ -176,22 +175,12 @@ const Inventory = () => {
     pdf.setFontSize(fontSize);
     pdf.text(`Data e Hora: ${currentDateTime}`, 89, 25);
 
-    const columns = ['Produto ID', 'Foto do Produto', 'Descrição Produto', 'Descrição Fazenda', 'Saldo Atual', 'Novo Saldo'];
+    const columns = ['Produto ID', 'Descrição Produto', 'Descrição Fazenda', 'Saldo Atual', 'Novo Saldo'];
     const data = [];
-
-    // Array para armazenar as URLs base64 das imagens
-    const productImages = [];
-
-    for (const product of products) {
-      // Carrega a imagem do produto (PNG ou JPEG)
-      const productImage = await loadImage(`data:${product.mimeType};base64,${bufferToBase64(product.fotoProduto.data)}`);
-      productImages.push(productImage);
-    }
 
     for (let i = 0; i < products.length; i++) {
       data.push([
         products[i].produtoId,
-        productImages[i],
         products[i].descricaoProduto,
         products[i].descricaoEstoque,
         products[i].saldo,
@@ -208,40 +197,10 @@ const Inventory = () => {
         fontSize: fontSize,
         cellPadding: 2,
         overflow: 'linebreak'
-      },
-      columnStyles: {
-        0: { columnWidth: 25 },
-        1: { columnWidth: 40 }, // Ajuste conforme necessário
-        2: { columnWidth: 40 }, // Ajuste conforme necessário
-        3: { columnWidth: 40 }, // Ajuste conforme necessário
-        4: { columnWidth: 25 },
-        5: { columnWidth: 25 }
-      },
-      didDrawCell: (data) => {
-        if (data.column.index === 1) {
-          const productImage = productImages[data.row.index]; // Use o array productImages para acessar a imagem
-          const startX = data.cell.x + (data.cell.width - 30) / 2; // Substitua 40 pela largura desejada
-          const startY = data.cell.y + (data.cell.height - 10) / 2; // Substitua 40 pela altura desejada
-
-          const desiredWidth = 10; // Substitua pela largura desejada
-          const desiredHeight = 10; // Substitua pela altura desejada
-
-          pdf.addImage(productImage, startX, startY, desiredWidth, desiredHeight);
-        }
       }
     });
 
     pdf.save('relatorio_inventario.pdf');
-  };
-
-  // Função auxiliar para carregar uma imagem
-  const loadImage = (src) => {
-    return new Promise((resolve, reject) => {
-      const img = new Image();
-      img.onload = () => resolve(img);
-      img.onerror = reject;
-      img.src = src;
-    });
   };
 
   return (
@@ -285,13 +244,15 @@ const Inventory = () => {
                 Cancelar
               </Button>
             ) : (
-              <Button variant="contained" color="primary" onClick={startInventory} fullWidth>
-                Iniciar Inventário
-              </Button>
+              <>
+                <Button variant="contained" color="primary" onClick={startInventory} fullWidth>
+                  Iniciar Inventário
+                </Button>
+                <Button variant="contained" onClick={generatePDF} fullWidth>
+                  Gerar Relatório PDF
+                </Button>
+              </>
             )}
-            <Button variant="contained" onClick={generatePDF} fullWidth>
-              Gerar Relatório PDF
-            </Button>
           </Box>
         </Grid>
       </Grid>
@@ -301,7 +262,7 @@ const Inventory = () => {
           <TableHead>
             <TableRow>
               <TableCell>Produto ID</TableCell>
-              <TableCell>Foto do produto</TableCell>
+              <TableCell>Foto do Produto</TableCell>
               <TableCell>Descrição Produto</TableCell>
               <TableCell>Descrição Fazenda</TableCell>
               <TableCell>Saldo</TableCell>
