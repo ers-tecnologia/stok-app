@@ -33,14 +33,14 @@ const utilities = {
   children: [
     {
       id: 'util-stock',
-      title: 'Estoque',
+      title: 'Fazenda',
       type: 'item',
       url: '/lista-estoque',
       icon: icons.DropboxOutlined
     },
     {
       id: 'util-sub-stock',
-      title: 'Sub-Estoque',
+      title: 'Estoque',
       type: 'item',
       url: '/lista-sub-estoque',
       icon: icons.PicRightOutlined

@@ -58,9 +58,11 @@ const Inventory = () => {
 
         return {
           produtoId,
+          fotoProduto: dataProduto.fotoProduto,
           saldo,
           descricaoProduto: dataProduto.descricao,
-          descricaoEstoque: dataEstoque.descricao
+          descricaoEstoque: dataEstoque.descricao,
+          mimeType: dataProduto.mimeType // Adicione o tipo MIME da imagem
         };
       });
 
@@ -142,7 +144,16 @@ const Inventory = () => {
     }));
   };
 
-  const generatePDF = () => {
+  const bufferToBase64 = (buffer) => {
+    let binary = '';
+    const bytes = new Uint8Array(buffer);
+    for (let i = 0; i < bytes.byteLength; i++) {
+      binary += String.fromCharCode(bytes[i]);
+    }
+    return btoa(binary);
+  };
+
+  const generatePDF = async () => {
     const pdf = new jsPDF();
     const fontSize = 10;
 
@@ -151,35 +162,45 @@ const Inventory = () => {
     const logoWidth = 30;
     const logoHeight = 30;
 
-    // Calcula a largura total do documento para centralizar o texto
-    const totalWidth = pdf.internal.pageSize.width;
-
-    // Calcula a posição x para centralizar o texto
-    const textX = (totalWidth - logoWidth) / 1.5;
-
-    pdf.addImage(logoPath, 'PNG', 20, 10, logoWidth, logoHeight);
+    // Carrega a imagem do logotipo (PNG)
+    const logoImage = await loadImage(logoPath);
+    pdf.addImage(logoImage, 'PNG', 20, 10, logoWidth, logoHeight);
 
     pdf.setFontSize(14);
 
     // Adicione o texto centralizado
-    pdf.text('STOK - Inventário Inteligente', textX, 30, { align: 'center' });
+    pdf.text('STOK - Inventário Inteligente', 120, 20, { align: 'center' });
 
     // Adicione a data e hora abaixo do cabeçalho
     const currentDateTime = new Date().toLocaleString();
     pdf.setFontSize(fontSize);
-    pdf.text(`Data e Hora: ${currentDateTime}`, 89, 35);
+    pdf.text(`Data e Hora: ${currentDateTime}`, 89, 25);
 
-    const columns = ['Produto ID', 'Descrição Produto', 'Descrição Estoque', 'Saldo Atual', 'Novo Saldo'];
-    const data = products.map((product) => [
-      product.produtoId,
-      product.descricaoProduto,
-      product.descricaoEstoque,
-      product.saldo,
-      newSaldos[product.produtoId] || ''
-    ]);
+    const columns = ['Produto ID', 'Foto do Produto', 'Descrição Produto', 'Descrição Fazenda', 'Saldo Atual', 'Novo Saldo'];
+    const data = [];
+
+    // Array para armazenar as URLs base64 das imagens
+    const productImages = [];
+
+    for (const product of products) {
+      // Carrega a imagem do produto (PNG ou JPEG)
+      const productImage = await loadImage(`data:${product.mimeType};base64,${bufferToBase64(product.fotoProduto.data)}`);
+      productImages.push(productImage);
+    }
+
+    for (let i = 0; i < products.length; i++) {
+      data.push([
+        products[i].produtoId,
+        productImages[i],
+        products[i].descricaoProduto,
+        products[i].descricaoEstoque,
+        products[i].saldo,
+        newSaldos[products[i].produtoId] || ''
+      ]);
+    }
 
     pdf.autoTable({
-      startY: 50, // Ajuste conforme necessário
+      startY: 50,
       head: [columns],
       body: data,
       theme: 'striped',
@@ -190,14 +211,37 @@ const Inventory = () => {
       },
       columnStyles: {
         0: { columnWidth: 25 },
-        1: { columnWidth: 50 },
-        2: { columnWidth: 55 },
-        3: { columnWidth: 25 },
-        4: { columnWidth: 25 }
+        1: { columnWidth: 40 }, // Ajuste conforme necessário
+        2: { columnWidth: 40 }, // Ajuste conforme necessário
+        3: { columnWidth: 40 }, // Ajuste conforme necessário
+        4: { columnWidth: 25 },
+        5: { columnWidth: 25 }
+      },
+      didDrawCell: (data) => {
+        if (data.column.index === 1) {
+          const productImage = productImages[data.row.index]; // Use o array productImages para acessar a imagem
+          const startX = data.cell.x + (data.cell.width - 30) / 2; // Substitua 40 pela largura desejada
+          const startY = data.cell.y + (data.cell.height - 10) / 2; // Substitua 40 pela altura desejada
+
+          const desiredWidth = 10; // Substitua pela largura desejada
+          const desiredHeight = 10; // Substitua pela altura desejada
+
+          pdf.addImage(productImage, startX, startY, desiredWidth, desiredHeight);
+        }
       }
     });
 
     pdf.save('relatorio_inventario.pdf');
+  };
+
+  // Função auxiliar para carregar uma imagem
+  const loadImage = (src) => {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.onload = () => resolve(img);
+      img.onerror = reject;
+      img.src = src;
+    });
   };
 
   return (
@@ -257,8 +301,9 @@ const Inventory = () => {
           <TableHead>
             <TableRow>
               <TableCell>Produto ID</TableCell>
+              <TableCell>Foto do produto</TableCell>
               <TableCell>Descrição Produto</TableCell>
-              <TableCell>Descrição Estoque</TableCell>
+              <TableCell>Descrição Fazenda</TableCell>
               <TableCell>Saldo</TableCell>
               <TableCell>Novo Saldo</TableCell>
             </TableRow>
@@ -267,6 +312,13 @@ const Inventory = () => {
             {products.map((product) => (
               <TableRow key={product.produtoId}>
                 <TableCell>{product.produtoId}</TableCell>
+                <TableCell>
+                  <img
+                    src={`data:${product.mimeType};base64,${bufferToBase64(product.fotoProduto.data)}`}
+                    alt={`Foto ${product.descricaoProduto}`}
+                    style={{ width: '40px', height: '40px' }}
+                  />
+                </TableCell>
                 <TableCell>{product.descricaoProduto}</TableCell>
                 <TableCell>{product.descricaoEstoque}</TableCell>
                 <TableCell>{product.saldo}</TableCell>

@@ -174,7 +174,7 @@ const OutputItems = () => {
         </Grid>
         <Grid item xs={3}>
           <FormControl sx={{ width: '100%' }}>
-            <InputLabel id="origin-stock-label">Estoque de Origem</InputLabel>
+            <InputLabel id="origin-stock-label">Fazenda de Origem</InputLabel>
             <Select labelId="origin-stock-label" value={estoqueId} onChange={handleEstoqueChange}>
               {estoques.map((estoque) => (
                 <MenuItem key={estoque.id} value={estoque.id}>

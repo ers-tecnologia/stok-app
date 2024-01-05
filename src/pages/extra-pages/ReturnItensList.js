@@ -53,8 +53,8 @@ const StockList = () => {
         <TableHead>
           <TableRow>
             <TableCell>ID</TableCell>
-            <TableCell align="left">Descrição</TableCell>
-            <TableCell align="left">Descrição do Estoque</TableCell>
+            <TableCell align="left">Nome do Estoque</TableCell>
+            <TableCell align="left">Nome da Fazenda</TableCell>
             <TableCell align="center">Ações</TableCell>
           </TableRow>
         </TableHead>
@@ -65,10 +65,10 @@ const StockList = () => {
               <TableCell align="left">{item.descricao}</TableCell>
               <TableCell align="left">{estoques.find((estoque) => estoque.id === item.estoqueId)?.descricao || 'N/A'}</TableCell>
               <TableCell align="center">
-                <Button disabled color="primary" onClick={() => navigate(`/sub-estoque/${item.id}`)}>
+                <Button color="primary" onClick={() => navigate(`/sub-estoque/${item.id}`)}>
                   <EditIcon />
                 </Button>
-                <Button disabled color="secondary" onClick={() => deleteItem(item.id)}>
+                <Button color="secondary" onClick={() => deleteItem(item.id)}>
                   <DeleteIcon />
                 </Button>
               </TableCell>

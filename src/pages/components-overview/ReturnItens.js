@@ -51,7 +51,7 @@ const RegisterStock = () => {
       if (response.ok) {
         navigate('/lista-sub-estoque');
       } else {
-        console.log('Erro ao salvar sub-estoque');
+        console.log('Erro ao salvar estoque');
       }
     } catch (error) {
       console.error('Error handling save: ', error);
@@ -67,7 +67,7 @@ const RegisterStock = () => {
 
         <Grid item xs={5}>
           <FormControl fullWidth>
-            <InputLabel id="estoque-label">Estoque</InputLabel>
+            <InputLabel id="estoque-label">Fazenda</InputLabel>
             <Select labelId="estoque-label" id="estoque" value={estoqueId} onChange={(e) => setEstoqueId(e.target.value)}>
               {estoques.map((estoque) => (
                 <MenuItem key={estoque.id} value={estoque.id}>
@@ -79,7 +79,7 @@ const RegisterStock = () => {
         </Grid>
 
         <Grid item xs={6}>
-          <TextField label="Descrição Sub-Estoque" fullWidth value={descricao} onChange={(e) => setDescricao(e.target.value)} />
+          <TextField label="Descrição Estoque" fullWidth value={descricao} onChange={(e) => setDescricao(e.target.value)} />
         </Grid>
         <Grid item xs={1}>
           <Button variant="contained" color="success" fullWidth onClick={handleSave}>

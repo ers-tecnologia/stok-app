@@ -57,7 +57,7 @@ const ItemsInputList = () => {
             <TableCell align="left">Descrição de Produto</TableCell>
             <TableCell align="left">Quantidade</TableCell>
             <TableCell align="left">Preço</TableCell>
-            <TableCell align="left">Descrição do Estoque</TableCell>
+            <TableCell align="left">Descrição da Fazenda</TableCell>
             <TableCell align="left">Data de Entrada</TableCell>
             <TableCell align="center">Ações</TableCell>
           </TableRow>
