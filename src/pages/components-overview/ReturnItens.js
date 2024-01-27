@@ -8,8 +8,12 @@ const RegisterStock = () => {
   const [descricao, setDescricao] = useState('');
   const [estoqueId, setEstoqueId] = useState('');
   const [estoques, setEstoques] = useState([]);
-  const [solicitanteId, setSolicitanteId] = useState([]);
+  const [solicitanteId, setSolicitanteId] = useState('');
   const [solicitantes, setSolicitantes] = useState([]);
+  const [produtoId, setProdutoId] = useState('');
+  const [quantidade, setQuantidade] = useState('');
+  const [dataEntrada, setDataEntrada] = useState('');
+  const [produtosId, setProdutosId] = useState([]);
 
   const handleEstoqueChange = (event) => {
     setEstoqueId(event.target.value);
@@ -22,34 +26,34 @@ const RegisterStock = () => {
   const handleProdutoIdChange = async (event) => {
     setProdutoId(event.target.value);
 
-    if (produtoId) {
+    if (event.target.value) {
       try {
-        let response = await fetch(`http://localhost:3001/api/devolucao-item/produtoId/${produtoId}`);
+        let response = await fetch(`http://localhost:3001/api/devolucao-item/produtoId/${event.target.value}`);
         let data = await response.json();
 
         if (!data) {
-          response = await fetch(`http://localhost:3001/api/devolucao-item/descricao/${produtoId}`);
+          response = await fetch(`http://localhost:3001/api/devolucao-item/descricao/${event.target.value}`);
           data = await response.json();
         }
       } catch (error) {
         console.error('Error fetching data: ', error);
       }
-    };
+    }
+  };
 
-    fetchData();
-  }, [itemId]);
+  const navigate = useNavigate();
 
   const handleSave = async () => {
     const method = itemId ? 'PUT' : 'POST';
     const url = itemId ? `http://localhost:3001/api/devolucao-item/${itemId}` : 'http://localhost:3001/api/devolucao-item';
 
-      const response = await fetch(url, {
-        method,
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ descricao, estoqueId })
-      });
+    const response = await fetch(url, {
+      method,
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ descricao, estoqueId })
+    });
 
     if (response.ok) {
       navigate('/lista-devolucao-itens');
@@ -77,7 +81,7 @@ const RegisterStock = () => {
           setId(data.id);
           setProdutoId(data.produtoId);
           setQuantidade(data.quantidade);
-          setData(data.dataEntrada);
+          setDataEntrada(data.dataEntrada);
           setEstoqueId(data.estoqueId);
           setSolicitanteId(data.solicitanteId);
         } catch (error) {
@@ -116,7 +120,7 @@ const RegisterStock = () => {
           <TextField label="ID" type="number" disabled fullWidth value={id} onChange={(e) => setId(e.target.value)} />
         </Grid>
         <Grid item xs={11}>
-        <FormControl fullWidth>
+          <FormControl fullWidth>
             <InputLabel id="produtoId-label">Buscar por Produtos</InputLabel>
             <Select labelId="produtoId-label" value={produtoId} onChange={handleProdutoIdChange}>
               {produtosId.map((produto) => (
