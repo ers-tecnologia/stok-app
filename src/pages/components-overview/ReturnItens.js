@@ -13,14 +13,6 @@ const RegisterStock = () => {
   const [dataEntrada, setDataEntrada] = useState('');
   const [produtosId, setProdutosId] = useState([]);
 
-  const handleEstoqueChange = (event) => {
-    setEstoqueId(event.target.value);
-  };
-
-  const handleSolicitanteChange = (event) => {
-    setSolicitanteId(event.target.value);
-  };
-
   const handleProdutoIdChange = async (event) => {
     setProdutoId(event.target.value);
 

@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 
 const StockList = () => {
   const navigate = useNavigate();
-  const [returnItens, setReturnItens] = useState([]);
+  const [setReturnItens] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
