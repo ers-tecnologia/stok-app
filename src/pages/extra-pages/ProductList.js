@@ -24,8 +24,8 @@ const ProductList = () => {
 
   const deleteItem = async (id) => {
     try {
-      await fetch(`http://orion.vps-kinghost.net:3001/api/produto/${id}`, { method: 'DELETE' });
-      const response = await fetch('http://orion.vps-kinghost.net:3001/api/produto');
+      await fetch(`http://191.252.212.69:3001/api/produto/${id}`, { method: 'DELETE' });
+      const response = await fetch('http://191.252.212.69:3001/api/produto');
       const data = await response.json();
       setProduto(data);
     } catch (error) {

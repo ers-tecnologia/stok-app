@@ -44,8 +44,8 @@ const ItemsInput = () => {
   const onSubmit = async () => {
     const method = itemId ? 'PUT' : 'POST';
     const url = itemId
-      ? `http://orion.vps-kinghost.net:3001/api/entrada-item/${itemId}`
-      : 'http://orion.vps-kinghost.net:3001/api/entrada-item';
+      ? `http://191.252.212.69:3001/api/entrada-item/${itemId}`
+      : 'http://191.252.212.69:3001/api/entrada-item';
 
     const response = await fetch(url, {
       method,
@@ -66,7 +66,7 @@ const ItemsInput = () => {
     if (itemId) {
       const fetchData = async () => {
         try {
-          const response = await fetch(`http://orion.vps-kinghost.net:3001/api/entrada-item/${itemId}`);
+          const response = await fetch(`http://191.252.212.69:3001/api/entrada-item/${itemId}`);
           const data = await response.json();
           setId(data.id);
           setProdutoId(data.produtoId);
@@ -85,7 +85,7 @@ const ItemsInput = () => {
 
   useEffect(() => {
     const fetchProduto = async () => {
-      const response = await fetch('http://orion.vps-kinghost.net:3001/api/produto');
+      const response = await fetch('http://191.252.212.69:3001/api/produto');
       const data = await response.json();
       setProdutosId(data);
     };
@@ -94,7 +94,7 @@ const ItemsInput = () => {
   }, []);
   useEffect(() => {
     const fetchEstoque = async () => {
-      const response = await fetch('http://orion.vps-kinghost.net:3001/api/estoque');
+      const response = await fetch('http://191.252.212.69:3001/api/estoque');
       const data = await response.json();
       setEstoques(data);
     };
