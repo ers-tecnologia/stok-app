@@ -8,8 +8,6 @@ const RegisterStock = () => {
   const [descricao, setDescricao] = useState('');
   const [estoqueId, setEstoqueId] = useState('');
   const [estoques, setEstoques] = useState([]);
-  const [solicitanteId, setSolicitanteId] = useState('');
-  const [solicitantes, setSolicitantes] = useState([]);
   const [produtoId, setProdutoId] = useState('');
   const [quantidade, setQuantidade] = useState('');
   const [dataEntrada, setDataEntrada] = useState('');
